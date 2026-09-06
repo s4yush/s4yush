@@ -1,287 +1,33 @@
-<div align="center">
+# Hi, I'm Suyash Singh 👋 Welcome to my GitHub Profile!
 
-# ⚡ SUYASH
+[![Profile views](https://komarev.com/ghpvc/?username=s4yush&label=Profile%20views&style=for-the-badge&color=blue)](https://github.com/s4yush)
 
-### `B.Tech CSE Student` · `Developer in Progress` · `Builder`
-
-<img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&size=20&duration=2800&pause=800&center=true&vCenter=true&width=700&lines=Exploring+Computer+Science;Currently+Learning+C+%26+SQL;Building+My+Way+Forward;Projects+Coming+Soon...;Learn+%E2%80%A2+Build+%E2%80%A2+Improve+%E2%80%A2+Repeat" />
-
-<br><br>
-
-<img src="https://komarev.com/ghpvc/?username=s4yush&style=for-the-badge&label=PROFILE+VIEWS" />
-
-</div>
+- 🌱 I'm currently learning C and SQL
+- 💻 Full-stack developer — Python backends, React/Next.js frontends
+- 📫 Connect with me below
+- ⚡ Always ready to help!
 
 ---
 
-## 🧑‍💻 `WHO AM I?`
+## 🛠️ Languages and Tools
 
-I'm **Suyash**, a first-year **B.Tech Computer Science student** interested in understanding how software works and building things from scratch.
-
-Currently, I'm focused on strengthening my programming fundamentals and exploring the foundations of software development.
-
-```text
-┌──────────────────────────────────────────────────────┐
-│                    SUYASH.EXE                        │
-├──────────────────────────────────────────────────────┤
-│                                                      │
-│  🎓 Role        → B.Tech CSE Student                 │
-│  💻 Current     → C Programming                      │
-│  🗄️ Exploring   → SQL & Databases                    │
-│  🔧 Tools       → Git & GitHub                        │
-│  🌱 Status      → Learning & Building                 │
-│  🚀 Next        → Projects Coming Soon                │
-│                                                      │
-└──────────────────────────────────────────────────────┘
-```
+[![Languages and Tools](https://skillicons.dev/icons?i=c,mysql,py,fastapi,mongodb,redis,react,nextjs,aws,docker,git,github,linux&perline=13)](https://github.com/s4yush)
 
 ---
 
-## 🧠 CURRENTLY LEARNING
+## 🔗 Connect with me
 
-```mermaid
-flowchart LR
-    A["💻 C"] --> B["🧠 Programming Fundamentals"]
-    B --> C["🛠️ Problem Solving"]
-
-    D["🗄️ SQL"] --> E["📊 Databases"]
-    E --> F["🔗 Data & Applications"]
-
-    C --> G["🚀 PROJECTS"]
-    F --> G
-
-    G --> H["COMING SOON"]
-```
-
-### 💻 C Programming
-
-```text
-████████████████░░░░  80%
-```
-
-Working on:
-- Variables & Data Types
-- Operators
-- Conditions
-- Loops
-- Functions
-- Arrays
-- Pointers
-- Programming Logic
-
-### 🗄️ SQL & Databases
-
-```text
-██████████░░░░░░░░░░  50%
-```
-
-Exploring:
-- SQL Fundamentals
-- Queries
-- Tables
-- Relationships
-- CRUD Operations
-- Database Design
-- Data Management
+[![Telegram](https://img.shields.io/badge/Telegram-26A5E4?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/your_telegram)
+[![Twitter](https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/your_twitter)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/your_linkedin)
+[![Website](https://img.shields.io/badge/Website-000000?style=for-the-badge&logo=google-chrome&logoColor=white)](https://your-website.com)
 
 ---
 
-# 🚀 PROJECT PIPELINE
+## 📊 GitHub Stats
 
-```text
-                         ┌──────────────┐
-                         │   💡 IDEA    │
-                         └──────┬───────┘
-                                ↓
-                         ┌──────────────┐
-                         │  📚 LEARN    │
-                         └──────┬───────┘
-                                ↓
-                         ┌──────────────┐
-                         │  💻 CODE     │
-                         └──────┬───────┘
-                                ↓
-                         ┌──────────────┐
-                         │  🛠️ BUILD    │
-                         └──────┬───────┘
-                                ↓
-                         ┌──────────────┐
-                         │  🔧 GIT      │
-                         └──────┬───────┘
-                                ↓
-                         ┌──────────────┐
-                         │  🧪 TEST     │
-                         └──────┬───────┘
-                                ↓
-                         ┌──────────────┐
-                         │  🚀 SHIP     │
-                         └──────┬───────┘
-                                ↓
-                         ┌──────────────┐
-                         │  📈 IMPROVE  │
-                         └──────┬───────┘
-                                │
-                                └──────────↻
-```
+[![s4yush's GitHub stats](https://github-readme-stats.vercel.app/api?username=s4yush&show_icons=true&theme=dark&hide_border=true)](https://github.com/s4yush)
 
----
+[![GitHub Streak](https://github-readme-streak-stats.herokuapp.com/?user=s4yush&theme=dark&hide_border=true)](https://github.com/s4yush)
 
-## 📦 PROJECT STATUS
-
-| Project | Tech | Status |
-|---|---|---|
-| 🌌 3D Portfolio | HTML · CSS · JS | 🟢 Live |
-| 💻 C Projects | C | 🟡 Learning |
-| 🗄️ Database Projects | SQL | 🟡 Learning |
-| 🚀 Next Project | — | 🔵 Coming Soon |
-
-> **More projects are coming as I learn and build.**
-
----
-
-## 🧮 THE MATRIX
-
-```text
-       C
-       │
-       ├───────────────┐
-       ↓               ↓
-  PROGRAMMING      LOGIC
-       │               │
-       └───────┬───────┘
-               ↓
-         PROBLEM SOLVING
-               │
-               ↓
-       ┌───────┴────────┐
-       ↓                ↓
-     SQL            DATABASES
-       │                │
-       └───────┬────────┘
-               ↓
-          PROJECTS 🚀
-               │
-               ↓
-         REAL-WORLD CODE
-```
-
----
-
-## 🛠️ LANGUAGES & TOOLS
-
-<div align="center">
-
-<img src="https://skillicons.dev/icons?i=c,python,mysql,git,github,html,css,js,vscode&perline=9" />
-
-</div>
-
----
-
-## 📊 GITHUB
-
-<div align="center">
-
-<img src="https://github-readme-stats.vercel.app/api?username=s4yush&show_icons=true&hide_border=true&theme=transparent" />
-
-<br>
-
-<img src="https://github-readme-stats.vercel.app/api/top-langs/?username=s4yush&layout=compact&hide_border=true&theme=transparent" />
-
-<br>
-
-<img src="https://github-readme-streak-stats.herokuapp.com/?user=s4yush&hide_border=true&theme=transparent" />
-
-</div>
-
-
-## 🌐 3D PORTFOLIO
-
-My personal portfolio is designed around a **cinematic 3D experience** with smooth animations and a responsive UI.
-
-### Features
-
-- 🌌 3D animated environment
-- ⚡ Smooth interactions
-- 📱 Mobile responsive
-- 🖥️ Desktop optimized
-- 🌗 Day / Night mode
-- 🎨 Multiple accent themes
-- 💾 Persistent theme preferences
-- 🚀 GitHub integration
-
-<div align="center">
-
-<a href="https://s4yush.github.io/my-portfolio/">
-
-<img src="https://img.shields.io/badge/🌐%20CHECK%20LIVE-PORTFOLIO-58A6FF?style=for-the-badge" />
-
-</a>
-
-<a href="https://github.com/s4yush/my-portfolio">
-
-<img src="https://img.shields.io/badge/💻%20SOURCE-GITHUB-181717?style=for-the-badge&logo=github" />
-
-</a>
-
-</div>
-
----
-
-## 🐍 CONTRIBUTION GRAPH
-
-<div align="center">
-
-<img src="https://raw.githubusercontent.com/s4yush/s4yush/output/github-contribution-grid-snake.svg" />
-
-</div>
-
----
-
-## 🎯 2026 ROADMAP
-
-```text
-                     2026
-                       │
-          ┌────────────┼────────────┐
-          ↓            ↓            ↓
-        💻 C         🗄️ SQL       🔧 Git
-          │            │            │
-          └────────────┼────────────┘
-                       ↓
-                  🧠 DSA BASICS
-                       │
-                       ↓
-                 🛠️ BUILD PROJECTS
-                       │
-                       ↓
-                  🚀 SHIP PROJECTS
-                       │
-                       ↓
-                 📈 KEEP IMPROVING
-```
-
----
-
-## 🧩 BUILDING MINDSET
-
-```python
-while True:
-    learn()
-    practice()
-    build()
-    break_things()
-    fix_them()
-    improve()
-```
-
----
-
-<div align="center">
-
-# 🚀
-
-### `LEARN • BUILD • SHIP • REPEAT`
-
-**More projects coming soon.**
-
-</div>
+[![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=s4yush&layout=compact&theme=dark&hide_border=true)](https://github.com/s4yush)
