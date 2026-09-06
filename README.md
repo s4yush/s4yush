@@ -17,55 +17,46 @@
 
 I'm **Suyash Singh**, a first-year **B.Tech CSE student** interested in Computer Science, software development and building projects while learning.
 
-```text
-                         ┌────────────────────┐
-                         │     👋 SUYASH       │
-                         │    B.Tech CSE       │
-                         └─────────┬──────────┘
-                                   │
-                    ┌──────────────┼──────────────┐
-                    ▼              ▼              ▼
-                 💻 C          🗄️ SQL          🐍 Python
-                    │              │              │
-                    └──────────────┼──────────────┘
-                                   ▼
-                              🧠 LEARNING
-                                   │
-                                   ▼
-                              🛠️ BUILDING
-                                   │
-                                   ▼
-                               🚀 PROJECTS
-                                   │
-                                   ▼
-                              📈 IMPROVING
+```mermaid
+flowchart LR
+    A["👋 SUYASH"] --> B["🎓 B.Tech CSE"]
+    B --> C["💻 C"]
+    C --> D["🗄️ SQL"]
+    D --> E["🐍 Python"]
+    E --> F["🧠 LEARNING"]
+    F --> G["🛠️ BUILDING"]
+    G --> H["🚀 PROJECTS"]
+    H --> I["📈 IMPROVING"]
+    classDef box fill:#0d1117,stroke:#8b949e,stroke-width:2px,color:#f0f6fc,font-size:20px;
+    class A,B,C,D,E,F,G,H,I box;
 ```
 
 ---
 
 ## 🧠 CURRENTLY LEARNING
 
-```text
-┌──────────────────────────────────────────────────────┐
-│                    CURRENT FOCUS                     │
-├──────────────────────────────────────────────────────┤
-│                                                      │
-│  💻 C Programming        ████████████████░░░░  80%  │
-│  🗄️ SQL & Databases      ████████████░░░░░░░░  60%  │
-│  🐍 Python               ███████████████░░░░░  75%  │
-│  🔧 Git & GitHub         ██████████████░░░░░░  70%  │
-│                                                      │
-└──────────────────────────────────────────────────────┘
+```mermaid
+flowchart LR
+    A["💻 C Programming — 80%"] --> B["🗄️ SQL & Databases — 60%"]
+    B --> C["🐍 Python — 75%"]
+    C --> D["🔧 Git & GitHub — 70%"]
+    classDef box fill:#0d1117,stroke:#8b949e,stroke-width:2px,color:#f0f6fc,font-size:20px;
+    class A,B,C,D box;
 ```
 
-```text
-C ────────────────► Programming Fundamentals ───► Problem Solving
-                                                           │
-Python ───────────► Backend / Automation ────────────────┤
-                                                           ▼
-SQL ──────────────► Databases / Data ───────────────► PROJECTS 🚀
-                                                           │
-Git + GitHub ─────► Version Control ──────────────────────┘
+```mermaid
+flowchart LR
+    A["💻 C"] --> B["🧠 Programming Fundamentals"]
+    B --> C["🧩 Problem Solving"]
+    C --> D["🚀 PROJECTS"]
+    E["🐍 Python"] --> F["⚙️ Backend / Automation"]
+    F --> D
+    G["🗄️ SQL"] --> H["📊 Databases / Data"]
+    H --> D
+    I["🔧 Git + GitHub"] --> J["📦 Version Control"]
+    J --> D
+    classDef box fill:#0d1117,stroke:#8b949e,stroke-width:2px,color:#f0f6fc,font-size:18px;
+    class A,B,C,D,E,F,G,H,I,J box;
 ```
 
 ---
@@ -90,13 +81,11 @@ flowchart LR
     H --> I["📊 REVIEW"]
     I --> J["📈 IMPROVE"]
     J --> E
-
     K["📚 LEARN"] -.-> B
     K -.-> E
     K -.-> J
-
-    classDef big fill:#0d1117,stroke:#8b949e,stroke-width:2px,color:#f0f6fc,font-size:22px,padding:18px;
-    class A,B,C,D,E,F,G,H,I,J,K big;
+    classDef box fill:#0d1117,stroke:#8b949e,stroke-width:2px,color:#f0f6fc,font-size:20px;
+    class A,B,C,D,E,F,G,H,I,J,K box;
 ```
 
 
@@ -104,21 +93,19 @@ flowchart LR
 
 ## 📦 PROJECTS
 
-```text
-                         ┌───────────────────┐
-                         │    🚀 PROJECTS    │
-                         └─────────┬─────────┘
-                                   │
-              ┌────────────────────┼────────────────────┐
-              ▼                    ▼                    ▼
-       🌌 3D PORTFOLIO        💻 C PROJECTS       🗄️ SQL PROJECTS
-              │                    │                    │
-              ▼                    ▼                    ▼
-          🟢 LIVE              🟡 LEARNING          🟡 LEARNING
-                                   │                    │
-                                   └─────────┬──────────┘
-                                             ▼
-                                      🚀 MORE SOON
+```mermaid
+flowchart LR
+    A["🚀 PROJECTS"] --> B["🌌 3D PORTFOLIO"]
+    B --> C["🟢 LIVE"]
+    A --> D["💻 C PROJECTS"]
+    D --> E["🟡 LEARNING"]
+    A --> F["🗄️ SQL PROJECTS"]
+    F --> G["🟡 LEARNING"]
+    C --> H["🚀 MORE SOON"]
+    E --> H
+    G --> H
+    classDef box fill:#0d1117,stroke:#8b949e,stroke-width:2px,color:#f0f6fc,font-size:18px;
+    class A,B,C,D,E,F,G,H box;
 ```
 
 ### 🌌 3D Portfolio
@@ -166,22 +153,15 @@ Exploring SQL, relational data and database concepts.
 
 ## 🐍 CONTRIBUTION ACTIVITY
 
-```text
-                     GITHUB ACTIVITY
-                           │
-                           ▼
-                    🟩 CONTRIBUTIONS
-                           │
-                           ▼
-                      💻 PRACTICE
-                           │
-                           ▼
-                      🛠️ PROJECTS
-                           │
-                           ▼
-                       🚀 GROWTH
-                           │
-                           └──────────────► REPEAT
+```mermaid
+flowchart LR
+    A["📊 GITHUB ACTIVITY"] --> B["🟩 CONTRIBUTIONS"]
+    B --> C["💻 PRACTICE"]
+    C --> D["🛠️ PROJECTS"]
+    D --> E["🚀 GROWTH"]
+    E --> F["🔁 REPEAT"]
+    classDef box fill:#0d1117,stroke:#8b949e,stroke-width:2px,color:#f0f6fc,font-size:20px;
+    class A,B,C,D,E,F box;
 ```
 
 <img src="https://raw.githubusercontent.com/s4yush/s4yush/output/github-contribution-grid-snake.svg" alt="GitHub contribution snake" />
@@ -190,52 +170,33 @@ Exploring SQL, relational data and database concepts.
 
 ## 🎯 2026 ROADMAP
 
-```text
-START
-  │
-  ▼
-🎓 B.TECH CSE
-  │
-  ├────────► 💻 Strengthen C
-  │
-  ├────────► 🗄️ Learn SQL
-  │
-  ├────────► 🐍 Improve Python
-  │
-  ├────────► 🧠 Learn DSA
-  │
-  ▼
-🛠️ BUILD PROJECTS
-  │
-  ▼
-🌐 DEPLOY
-  │
-  ▼
-📈 IMPROVE
-  │
-  ▼
-🚀 BUILD MORE
-  │
-  └──────────────────────► REPEAT
+```mermaid
+flowchart LR
+    A["🎓 B.TECH CSE"] --> B["💻 Strengthen C"]
+    B --> C["🗄️ Learn SQL"]
+    C --> D["🐍 Improve Python"]
+    D --> E["🧠 Learn DSA"]
+    E --> F["🛠️ BUILD PROJECTS"]
+    F --> G["🌐 DEPLOY"]
+    G --> H["📈 IMPROVE"]
+    H --> I["🚀 BUILD MORE"]
+    I --> B
+    classDef box fill:#0d1117,stroke:#8b949e,stroke-width:2px,color:#f0f6fc,font-size:20px;
+    class A,B,C,D,E,F,G,H,I box;
 ```
 
 ---
 
 ## 🎧 CODING MODE
 
-```text
-             🎧 MUSIC
-                │
-                ▼
-             💻 CODE
-                │
-                ▼
-             🧠 FOCUS
-                │
-                ▼
-             🚀 BUILD
-                │
-                └──────────► REPEAT
+```mermaid
+flowchart LR
+    A["🎧 MUSIC"] --> B["💻 CODE"]
+    B --> C["🧠 FOCUS"]
+    C --> D["🚀 BUILD"]
+    D --> E["🔁 REPEAT"]
+    classDef box fill:#0d1117,stroke:#8b949e,stroke-width:2px,color:#f0f6fc,font-size:20px;
+    class A,B,C,D,E box;
 ```
 
 [![Spotify](https://img.shields.io/badge/Spotify-Coding%20Soundtrack-1DB954?style=for-the-badge&logo=spotify&logoColor=white)](https://open.spotify.com/)
