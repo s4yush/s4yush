@@ -193,25 +193,6 @@ Exploring:
 
 </div>
 
----
-
-## 🎧 CODING + MUSIC
-
-<div align="center">
-
-<a href="https://open.spotify.com/">
-
-<img src="https://img.shields.io/badge/🎧%20SPOTIFY-Coding%20Soundtrack-1DB954?style=for-the-badge" />
-
-</a>
-
-<br><br>
-
-`FOCUS → CODE → MUSIC → REPEAT`
-
-</div>
-
----
 
 ## 🌐 3D PORTFOLIO
 
