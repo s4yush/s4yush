@@ -90,10 +90,15 @@ flowchart LR
     H --> I["📊 REVIEW"]
     I --> J["📈 IMPROVE"]
     J --> E
+
     K["📚 LEARN"] -.-> B
     K -.-> E
     K -.-> J
+
+    classDef big fill:#0d1117,stroke:#8b949e,stroke-width:2px,color:#f0f6fc,font-size:22px,padding:18px;
+    class A,B,C,D,E,F,G,H,I,J,K big;
 ```
+
 
 ---
 
