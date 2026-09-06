@@ -28,6 +28,6 @@
 
 [![s4yush's GitHub stats](https://github-readme-stats.vercel.app/api?username=s4yush&show_icons=true&theme=dark&hide_border=true)](https://github.com/s4yush)
 
-[![GitHub Streak](https://github-readme-streak-stats.herokuapp.com/?user=s4yush&theme=dark&hide_border=true)](https://github.com/s4yush)
+[![GitHub Streak](https://streak-stats.demolab.com/?user=s4yush&theme=dark&hide_border=true)](https://github.com/s4yush)
 
 [![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=s4yush&layout=compact&theme=dark&hide_border=true)](https://github.com/s4yush)
