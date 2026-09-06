@@ -1,139 +1,306 @@
 <div align="center">
 
-# S U Y A S H
+# ⚡ SUYASH
 
 ### `B.Tech CSE Student` · `Developer in Progress` · `Builder`
 
-<img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&size=18&duration=2800&pause=900&center=true&vCenter=true&width=650&lines=Computer+Science+Enthusiast;Python+%7C+C+%7C+Git+%7C+GitHub;Learning+%E2%86%92+Building+%E2%86%92+Shipping;More+projects+coming+soon..." />
+<img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&size=20&duration=2800&pause=800&center=true&vCenter=true&width=700&lines=Exploring+Computer+Science;Currently+Learning+C+%26+SQL;Building+My+Way+Forward;Projects+Coming+Soon...;Learn+%E2%80%A2+Build+%E2%80%A2+Improve+%E2%80%A2+Repeat" />
 
-<br>
+<br><br>
 
-<img src="https://komarev.com/ghpvc/?username=s4yush&style=for-the-badge&color=blueviolet" />
+<img src="https://komarev.com/ghpvc/?username=s4yush&style=for-the-badge&label=PROFILE+VIEWS" />
 
 </div>
 
 ---
 
-## ⚡ Live Activity
+## 🧑‍💻 `WHO AM I?`
 
-<p align="center">
-  <img src="https://github-readme-stats.vercel.app/api/wakatime?username=s4yush&layout=compact&hide_border=true&theme=transparent" alt="WakaTime stats" />
-</p>
+I'm **Suyash**, a first-year **B.Tech Computer Science student** interested in understanding how software works and building things from scratch.
 
-> WakaTime updates automatically when your public WakaTime profile is configured.
-
----
-
-## 🧠 About Me
-
-```python
-class Suyash:
-    role = "First-Year B.Tech CSE Student"
-    interests = ["Computer Science", "Software Development", "Problem Solving"]
-
-    learning = ["Python", "C", "Git", "GitHub"]
-    status = "Building"
-    next = "More projects"
-```
-
----
-
-## 🧮 Project Matrix
-
-> This section is generated automatically from my public GitHub repositories.
-> Progress is calculated from repository activity (issues, pull requests and commits), so I don't have to edit percentages manually.
-
-<!-- PROJECT_MATRIX:START -->
-| Project | Language | Activity | Progress |
-|---|---|---:|---:|
-| Loading projects… | — | — | `░░░░░░░░░░` |
-<!-- PROJECT_MATRIX:END -->
-
----
-
-## 🚀 Build Pipeline
+Currently, I'm focused on strengthening my programming fundamentals and exploring the foundations of software development.
 
 ```text
-IDEA 💡
-  ↓
-LEARN 📚
-  ↓
-CODE 💻
-  ↓
-BUILD 🛠️
-  ↓
-GIT 🔧
-  ↓
-SHIP 🚀
-  ↓
-IMPROVE ♻️
-  └──────────────→ REPEAT
+┌──────────────────────────────────────────────────────┐
+│                    SUYASH.EXE                        │
+├──────────────────────────────────────────────────────┤
+│                                                      │
+│  🎓 Role        → B.Tech CSE Student                 │
+│  💻 Current     → C Programming                      │
+│  🗄️ Exploring   → SQL & Databases                    │
+│  🔧 Tools       → Git & GitHub                        │
+│  🌱 Status      → Learning & Building                 │
+│  🚀 Next        → Projects Coming Soon                │
+│                                                      │
+└──────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## 🛠️ Languages & Tools
+## 🧠 CURRENTLY LEARNING
 
-<p align="center">
-  <img src="https://skillicons.dev/icons?i=c,python,git,github,html,css,js,vscode&perline=8" />
-</p>
+```mermaid
+flowchart LR
+    A["💻 C"] --> B["🧠 Programming Fundamentals"]
+    B --> C["🛠️ Problem Solving"]
+
+    D["🗄️ SQL"] --> E["📊 Databases"]
+    E --> F["🔗 Data & Applications"]
+
+    C --> G["🚀 PROJECTS"]
+    F --> G
+
+    G --> H["COMING SOON"]
+```
+
+### 💻 C Programming
+
+```text
+████████████████░░░░  80%
+```
+
+Working on:
+- Variables & Data Types
+- Operators
+- Conditions
+- Loops
+- Functions
+- Arrays
+- Pointers
+- Programming Logic
+
+### 🗄️ SQL & Databases
+
+```text
+██████████░░░░░░░░░░  50%
+```
+
+Exploring:
+- SQL Fundamentals
+- Queries
+- Tables
+- Relationships
+- CRUD Operations
+- Database Design
+- Data Management
 
 ---
 
-## 📊 GitHub
+# 🚀 PROJECT PIPELINE
 
-<p align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=s4yush&show_icons=true&hide_border=true&theme=transparent" />
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=s4yush&layout=compact&hide_border=true&theme=transparent" />
-</p>
-
-<p align="center">
-  <img src="https://github-readme-streak-stats.herokuapp.com/?user=s4yush&hide_border=true&theme=transparent" />
-</p>
-
----
-
-## 🎵 Spotify
-
-<p align="center">
-  <a href="https://open.spotify.com/">
-    <img src="https://img.shields.io/badge/Spotify-Coding%20Soundtrack-1DB954?style=for-the-badge&logo=spotify&logoColor=white" />
-  </a>
-</p>
-
-`Code × Music × Focus`
-
----
-
-## 🌌 Featured Project
-
-### 3D Portfolio
-
-Interactive cinematic portfolio with 3D animation, smooth UI, responsive design, day/night mode and four accent themes.
-
-<p align="center">
-  <a href="https://s4yush.github.io/my-portfolio/">
-    <img src="https://img.shields.io/badge/🌐%20CHECK%20LIVE-Portfolio-58A6FF?style=for-the-badge" />
-  </a>
-  <a href="https://github.com/s4yush/my-portfolio">
-    <img src="https://img.shields.io/badge/💻%20SOURCE-GitHub-181717?style=for-the-badge&logo=github" />
-  </a>
-</p>
+```text
+                         ┌──────────────┐
+                         │   💡 IDEA    │
+                         └──────┬───────┘
+                                ↓
+                         ┌──────────────┐
+                         │  📚 LEARN    │
+                         └──────┬───────┘
+                                ↓
+                         ┌──────────────┐
+                         │  💻 CODE     │
+                         └──────┬───────┘
+                                ↓
+                         ┌──────────────┐
+                         │  🛠️ BUILD    │
+                         └──────┬───────┘
+                                ↓
+                         ┌──────────────┐
+                         │  🔧 GIT      │
+                         └──────┬───────┘
+                                ↓
+                         ┌──────────────┐
+                         │  🧪 TEST     │
+                         └──────┬───────┘
+                                ↓
+                         ┌──────────────┐
+                         │  🚀 SHIP     │
+                         └──────┬───────┘
+                                ↓
+                         ┌──────────────┐
+                         │  📈 IMPROVE  │
+                         └──────┬───────┘
+                                │
+                                └──────────↻
+```
 
 ---
 
-## 🐍 Contribution Snake
+## 📦 PROJECT STATUS
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/s4yush/s4yush/output/github-contribution-grid-snake.svg" alt="Contribution snake" />
-</p>
+| Project | Tech | Status |
+|---|---|---|
+| 🌌 3D Portfolio | HTML · CSS · JS | 🟢 Live |
+| 💻 C Projects | C | 🟡 Learning |
+| 🗄️ Database Projects | SQL | 🟡 Learning |
+| 🚀 Next Project | — | 🔵 Coming Soon |
+
+> **More projects are coming as I learn and build.**
+
+---
+
+## 🧮 THE MATRIX
+
+```text
+       C
+       │
+       ├───────────────┐
+       ↓               ↓
+  PROGRAMMING      LOGIC
+       │               │
+       └───────┬───────┘
+               ↓
+         PROBLEM SOLVING
+               │
+               ↓
+       ┌───────┴────────┐
+       ↓                ↓
+     SQL            DATABASES
+       │                │
+       └───────┬────────┘
+               ↓
+          PROJECTS 🚀
+               │
+               ↓
+         REAL-WORLD CODE
+```
+
+---
+
+## 🛠️ LANGUAGES & TOOLS
+
+<div align="center">
+
+<img src="https://skillicons.dev/icons?i=c,python,mysql,git,github,html,css,js,vscode&perline=9" />
+
+</div>
+
+---
+
+## 📊 GITHUB
+
+<div align="center">
+
+<img src="https://github-readme-stats.vercel.app/api?username=s4yush&show_icons=true&hide_border=true&theme=transparent" />
+
+<br>
+
+<img src="https://github-readme-stats.vercel.app/api/top-langs/?username=s4yush&layout=compact&hide_border=true&theme=transparent" />
+
+<br>
+
+<img src="https://github-readme-streak-stats.herokuapp.com/?user=s4yush&hide_border=true&theme=transparent" />
+
+</div>
+
+---
+
+## 🎧 CODING + MUSIC
+
+<div align="center">
+
+<a href="https://open.spotify.com/">
+
+<img src="https://img.shields.io/badge/🎧%20SPOTIFY-Coding%20Soundtrack-1DB954?style=for-the-badge" />
+
+</a>
+
+<br><br>
+
+`FOCUS → CODE → MUSIC → REPEAT`
+
+</div>
+
+---
+
+## 🌐 3D PORTFOLIO
+
+My personal portfolio is designed around a **cinematic 3D experience** with smooth animations and a responsive UI.
+
+### Features
+
+- 🌌 3D animated environment
+- ⚡ Smooth interactions
+- 📱 Mobile responsive
+- 🖥️ Desktop optimized
+- 🌗 Day / Night mode
+- 🎨 Multiple accent themes
+- 💾 Persistent theme preferences
+- 🚀 GitHub integration
+
+<div align="center">
+
+<a href="https://s4yush.github.io/my-portfolio/">
+
+<img src="https://img.shields.io/badge/🌐%20CHECK%20LIVE-PORTFOLIO-58A6FF?style=for-the-badge" />
+
+</a>
+
+<a href="https://github.com/s4yush/my-portfolio">
+
+<img src="https://img.shields.io/badge/💻%20SOURCE-GITHUB-181717?style=for-the-badge&logo=github" />
+
+</a>
+
+</div>
+
+---
+
+## 🐍 CONTRIBUTION GRAPH
+
+<div align="center">
+
+<img src="https://raw.githubusercontent.com/s4yush/s4yush/output/github-contribution-grid-snake.svg" />
+
+</div>
+
+---
+
+## 🎯 2026 ROADMAP
+
+```text
+                     2026
+                       │
+          ┌────────────┼────────────┐
+          ↓            ↓            ↓
+        💻 C         🗄️ SQL       🔧 Git
+          │            │            │
+          └────────────┼────────────┘
+                       ↓
+                  🧠 DSA BASICS
+                       │
+                       ↓
+                 🛠️ BUILD PROJECTS
+                       │
+                       ↓
+                  🚀 SHIP PROJECTS
+                       │
+                       ↓
+                 📈 KEEP IMPROVING
+```
+
+---
+
+## 🧩 BUILDING MINDSET
+
+```python
+while True:
+    learn()
+    practice()
+    build()
+    break_things()
+    fix_them()
+    improve()
+```
 
 ---
 
 <div align="center">
 
-### 🚀 `LEARN • BUILD • SHIP • REPEAT`
+# 🚀
 
-<i>More projects coming soon.</i>
+### `LEARN • BUILD • SHIP • REPEAT`
+
+**More projects coming soon.**
 
 </div>
