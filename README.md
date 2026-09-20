@@ -1,220 +1,112 @@
 <div align="center">
 
-# Hi, I'm Suyash Singh 👋
+<table width="100%">
+<tr>
+<td width="64%" valign="middle">
+<p><sub>RECRUITER SIGNAL BRIEF · s4yush</sub></p>
+<h1>Suyash singh</h1>
+<h2>Product-minded developer</h2>
+<p>B.Tech CSE Student | Python • C • Git &amp; GitHub | Learning &amp; Building | More Projects Coming Soon</p>
+<p><strong>● Building and sharing work in public</strong></p>
 
-### `B.Tech CSE Student` · `Developer in Progress` · `Builder`
-
-[![Profile views](https://komarev.com/ghpvc/?username=s4yush&label=Profile%20views&style=for-the-badge&color=blue)](https://github.com/s4yush)
-[![GitHub](https://img.shields.io/badge/GitHub-s4yush-181717?style=for-the-badge&logo=github)](https://github.com/s4yush)
-
-<img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&size=18&duration=2600&pause=800&center=true&vCenter=true&width=680&lines=Currently+Learning+C+%26+SQL;Python+%7C+C+%7C+Git+%7C+GitHub;Exploring+Computer+Science;Building+Projects;More+Projects+Coming+Soon..." />
-
+<p><a href="https://github.com/s4yush">GitHub</a></p>
+</td>
+<td width="36%" valign="middle" align="center">
+<picture>
+  <source media="(prefers-color-scheme: light)" srcset="https://www.gitskins.com/api/section/portrait?username=s4yush&theme=github-dark&avatar=https%3A%2F%2Favatars.githubusercontent.com%2Fu%2F325492858%3Fv%3D4&color=1&v=recruiter-portrait-1&mode=light" />
+  <img src="https://www.gitskins.com/api/section/portrait?username=s4yush&theme=github-dark&avatar=https%3A%2F%2Favatars.githubusercontent.com%2Fu%2F325492858%3Fv%3D4&color=1&v=recruiter-portrait-1&mode=dark" width="240px" alt="Suyash singh animated colored ASCII portrait" />
+</picture>
+</td>
+</tr>
+</table>
 </div>
 
----
+<h2>What teams can evaluate quickly</h2>
 
-## 🧑‍💻 About Me
+<table width="100%">
+<tr>
+<td width="33%" valign="top"><h3>Role fit</h3><p>Product-minded developer</p></td>
+<td width="33%" valign="top"><h3>Public proof</h3><p>2 repositories · 2 stars</p></td>
+<td width="33%" valign="top"><h3>Momentum</h3><p>40 contributions · 3 active days</p></td>
+</tr>
+</table>
 
-I'm **Suyash Singh**, a first-year **B.Tech CSE student** interested in Computer Science, software development and building projects while learning.
+<p><sub>B.Tech CSE Student | Python • C • Git &amp; GitHub | Learning &amp; Building | More Projects Coming Soon</sub></p>
 
-```mermaid
-flowchart LR
-    A["👋 SUYASH"] --> B["🎓 B.Tech CSE"]
-    B --> C["💻 C"]
-    C --> D["🗄️ SQL"]
-    D --> E["🐍 Python"]
-    E --> F["🧠 LEARNING"]
-    F --> G["🛠️ BUILDING"]
-    G --> H["🚀 PROJECTS"]
-    H --> I["📈 IMPROVING"]
-    classDef box fill:#0d1117,stroke:#8b949e,stroke-width:2px,color:#f0f6fc,font-size:20px;
-    class A,B,C,D,E,F,G,H,I box;
-```
+<h2>Proof at a glance</h2>
 
----
-
-## 🧠 CURRENTLY LEARNING
-
-```mermaid
-flowchart LR
-    A["💻 C Programming — 80%"] --> B["🗄️ SQL & Databases — 60%"]
-    B --> C["🐍 Python — 75%"]
-    C --> D["🔧 Git & GitHub — 70%"]
-    classDef box fill:#0d1117,stroke:#8b949e,stroke-width:2px,color:#f0f6fc,font-size:20px;
-    class A,B,C,D box;
-```
-
-```mermaid
-flowchart LR
-    A["💻 C"] --> B["🧠 Programming Fundamentals"]
-    B --> C["🧩 Problem Solving"]
-    C --> D["🚀 PROJECTS"]
-    E["🐍 Python"] --> F["⚙️ Backend / Automation"]
-    F --> D
-    G["🗄️ SQL"] --> H["📊 Databases / Data"]
-    H --> D
-    I["🔧 Git + GitHub"] --> J["📦 Version Control"]
-    J --> D
-    classDef box fill:#0d1117,stroke:#8b949e,stroke-width:2px,color:#f0f6fc,font-size:18px;
-    class A,B,C,D,E,F,G,H,I,J box;
-```
-
----
-
-## 🛠️ LANGUAGES & TOOLS
-
-[![Languages and Tools](https://skillicons.dev/icons?i=c,mysql,py,fastapi,mongodb,redis,react,nextjs,aws,docker,git,github,linux&perline=13)](https://github.com/s4yush)
-
----
-
-## 🚀 DEVELOPMENT FLOW
-
-```mermaid
-flowchart LR
-    A["💡 IDEA"] --> B["🔍 RESEARCH"]
-    B --> C["📐 PLAN"]
-    C --> D["🎨 DESIGN"]
-    D --> E["💻 CODE"]
-    E --> F["🔧 GIT"]
-    F --> G["🧪 TEST"]
-    G --> H["🌐 DEPLOY"]
-    H --> I["📊 REVIEW"]
-    I --> J["📈 IMPROVE"]
-    J --> E
-    K["📚 LEARN"] -.-> B
-    K -.-> E
-    K -.-> J
-    classDef box fill:#0d1117,stroke:#8b949e,stroke-width:2px,color:#f0f6fc,font-size:20px;
-    class A,B,C,D,E,F,G,H,I,J,K box;
-```
-
-
----
-
-## 📦 PROJECTS
-
-```mermaid
-flowchart LR
-    A["🚀 PROJECTS"] --> B["🌌 3D PORTFOLIO"]
-    B --> C["🟢 LIVE"]
-    A --> D["💻 C PROJECTS"]
-    D --> E["🟡 LEARNING"]
-    A --> F["🗄️ SQL PROJECTS"]
-    F --> G["🟡 LEARNING"]
-    C --> H["🚀 MORE SOON"]
-    E --> H
-    G --> H
-    classDef box fill:#0d1117,stroke:#8b949e,stroke-width:2px,color:#f0f6fc,font-size:18px;
-    class A,B,C,D,E,F,G,H box;
-```
-
-### 🌌 3D Portfolio
-
-A cinematic portfolio focused on **3D animation, smooth interactions, responsive UI/UX, day/night mode and four accent color themes**.
-
-**Live:** https://s4yush.github.io/my-portfolio/
-
-**Source:** https://github.com/s4yush/my-portfolio
-
-### 💻 C Projects
-
-Currently building programming fundamentals and problem-solving projects in C.
-
-### 🗄️ SQL & Database Projects
-
-Exploring SQL, relational data and database concepts.
-
-> 🚀 **More projects coming soon.**
-
----
-
-## 📊 GITHUB ACTIVITY
+<table width="100%">
+<tr>
+<td width="25%" align="center"><strong>2</strong><br /><sub>Repositories</sub></td>
+<td width="25%" align="center"><strong>2</strong><br /><sub>Stars</sub></td>
+<td width="25%" align="center"><strong>40</strong><br /><sub>Contributions</sub></td>
+<td width="25%" align="center"><strong>2</strong><br /><sub>Followers</sub></td>
+</tr>
+</table>
 
 <p align="center">
-
-[![Suyash's GitHub stats](https://github-readme-stats.vercel.app/api?username=s4yush&show_icons=true&theme=dark&hide_border=true&include_all_commits=true&rank_icon=github)](https://github.com/s4yush)
-
-[![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=s4yush&layout=compact&theme=dark&hide_border=true&langs_count=8)](https://github.com/s4yush)
-
-[![GitHub Streak](https://streak-stats.demolab.com/?user=s4yush&theme=dark&hide_border=true)](https://github.com/s4yush)
-
+<picture>
+  <source media="(prefers-color-scheme: light)" srcset="https://www.gitskins.com/api/section/stats?username=s4yush&theme=github-dark&avatar=https%3A%2F%2Favatars.githubusercontent.com%2Fu%2F325492858%3Fv%3D4&v=recruiter-stats-1&mode=light" />
+  <img src="https://www.gitskins.com/api/section/stats?username=s4yush&theme=github-dark&avatar=https%3A%2F%2Favatars.githubusercontent.com%2Fu%2F325492858%3Fv%3D4&v=recruiter-stats-1&mode=dark" width="100%" alt="Suyash singh GitHub proof metrics" />
+</picture>
 </p>
 
----
+<h2>Selected work</h2>
 
-## ⏱️ WAKATIME
+<table width="100%">
+<tr>
+<td width="58%" valign="top">
+<picture>
+  <source media="(prefers-color-scheme: light)" srcset="https://www.gitskins.com/api/section/projects?username=s4yush&theme=github-dark&avatar=https%3A%2F%2Favatars.githubusercontent.com%2Fu%2F325492858%3Fv%3D4&repos=s4yush%2Fmy-portfolio&v=recruiter-projects-1&mode=light" />
+  <img src="https://www.gitskins.com/api/section/projects?username=s4yush&theme=github-dark&avatar=https%3A%2F%2Favatars.githubusercontent.com%2Fu%2F325492858%3Fv%3D4&repos=s4yush%2Fmy-portfolio&v=recruiter-projects-1&mode=dark" width="100%" alt="Suyash singh selected projects" />
+</picture>
+</td>
+<td width="42%" valign="top">
+<h3><a href="https://github.com/s4yush/my-portfolio">my-portfolio</a></h3>
+<p>A selected public project.</p>
+<p><sub>⭐ 2 · 🍴 0</sub></p>
+<p><a href="https://github.com/s4yush/my-portfolio">Read the repository →</a></p>
+</td>
+</tr>
+</table>
 
-<!--START_SECTION:waka-->
-<!--END_SECTION:waka-->
+<table width="100%">
+<tr>
 
-> Coding activity can be updated automatically using WakaTime + GitHub Actions.
+</tr>
+</table>
 
----
+<h2>Technical toolkit</h2>
 
-## 🐍 CONTRIBUTION ACTIVITY
+<p align="center">
+<picture>
+  <source media="(prefers-color-scheme: light)" srcset="https://www.gitskins.com/api/section/stack?username=s4yush&theme=github-dark&avatar=https%3A%2F%2Favatars.githubusercontent.com%2Fu%2F325492858%3Fv%3D4&v=recruiter-stack-1&mode=light" />
+  <img src="https://www.gitskins.com/api/section/stack?username=s4yush&theme=github-dark&avatar=https%3A%2F%2Favatars.githubusercontent.com%2Fu%2F325492858%3Fv%3D4&v=recruiter-stack-1&mode=dark" width="100%" alt="Suyash singh technology stack" />
+</picture>
+</p>
 
-```mermaid
-flowchart LR
-    A["📊 GITHUB ACTIVITY"] --> B["🟩 CONTRIBUTIONS"]
-    B --> C["💻 PRACTICE"]
-    C --> D["🛠️ PROJECTS"]
-    D --> E["🚀 GROWTH"]
-    E --> F["🔁 REPEAT"]
-    classDef box fill:#0d1117,stroke:#8b949e,stroke-width:2px,color:#f0f6fc,font-size:20px;
-    class A,B,C,D,E,F box;
-```
+<table width="100%">
+<tr>
+<td width="100%" align="center"><sub>Language data will appear as public repositories are indexed.</sub></td>
+</tr>
+</table>
 
-<img src="https://raw.githubusercontent.com/s4yush/s4yush/output/github-contribution-grid-snake.svg" alt="GitHub contribution snake" />
+<h2>Consistency signal</h2>
 
----
+<p align="center">
+<picture>
+  <source media="(prefers-color-scheme: light)" srcset="https://www.gitskins.com/api/section/heatmap?username=s4yush&theme=github-dark&avatar=https%3A%2F%2Favatars.githubusercontent.com%2Fu%2F325492858%3Fv%3D4&v=recruiter-heatmap-1&mode=light" />
+  <img src="https://www.gitskins.com/api/section/heatmap?username=s4yush&theme=github-dark&avatar=https%3A%2F%2Favatars.githubusercontent.com%2Fu%2F325492858%3Fv%3D4&v=recruiter-heatmap-1&mode=dark" width="100%" alt="Suyash singh contribution activity" />
+</picture>
+</p>
 
-## 🎯 2026 ROADMAP
+<hr />
 
-```mermaid
-flowchart LR
-    A["🎓 B.TECH CSE"] --> B["💻 Strengthen C"]
-    B --> C["🗄️ Learn SQL"]
-    C --> D["🐍 Improve Python"]
-    D --> E["🧠 Learn DSA"]
-    E --> F["🛠️ BUILD PROJECTS"]
-    F --> G["🌐 DEPLOY"]
-    G --> H["📈 IMPROVE"]
-    H --> I["🚀 BUILD MORE"]
-    I --> B
-    classDef box fill:#0d1117,stroke:#8b949e,stroke-width:2px,color:#f0f6fc,font-size:20px;
-    class A,B,C,D,E,F,G,H,I box;
-```
+<table width="100%">
+<tr>
+<td width="62%" valign="middle"><h2>Let’s talk about the next build</h2><p>Open to thoughtful teams, ambitious products, and useful engineering work.</p></td>
+<td width="38%" valign="middle" align="right"><a href="https://github.com/s4yush">GitHub</a></td>
+</tr>
+</table>
 
----
-
-## 🎧 CODING MODE
-
-```mermaid
-flowchart LR
-    A["🎧 MUSIC"] --> B["💻 CODE"]
-    B --> C["🧠 FOCUS"]
-    C --> D["🚀 BUILD"]
-    D --> E["🔁 REPEAT"]
-    classDef box fill:#0d1117,stroke:#8b949e,stroke-width:2px,color:#f0f6fc,font-size:20px;
-    class A,B,C,D,E box;
-```
-
-[![Spotify](https://img.shields.io/badge/Spotify-Coding%20Soundtrack-1DB954?style=for-the-badge&logo=spotify&logoColor=white)](https://open.spotify.com/)
-
----
-
-## 🔗 CONNECT WITH ME
-
-[![Telegram](https://img.shields.io/badge/Telegram-26A5E4?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/your_telegram)
-[![Twitter](https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/your_twitter)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/your_linkedin)
-
----
-
-<div align="center">
-
-### 🚀 `LEARN → BUILD → SHIP → IMPROVE`
-
-**More projects coming soon.**
-
-</div>
+<p align="center"><sub>Suyash singh · recruiter-ready profile generated with <a href="https://www.gitskins.com/readme-generator">GitSkins</a></sub></p>
