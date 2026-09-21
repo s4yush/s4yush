@@ -8,7 +8,6 @@ on:
     branches: [main]
     paths:
       - scripts/**
-      - cloudflare/**
       - .github/workflows/profile.yml
 
 permissions:
@@ -24,19 +23,8 @@ jobs:
     timeout-minutes: 12
     env:
       PROFILE_LOGIN: ${{ github.repository_owner }}
-      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-      WRANGLER_SEND_METRICS: "false"
     steps:
       - uses: actions/checkout@v4
-
-      - name: Prepare views counter
-        if: ${{ env.CLOUDFLARE_API_TOKEN != '' && github.event_name != 'schedule' }}
-        run: python3 scripts/deploy_views.py
-
-      - name: Deploy views counter
-        if: ${{ env.CLOUDFLARE_API_TOKEN != '' && github.event_name != 'schedule' }}
-        run: npx --yes wrangler@4 deploy --config cloudflare/wrangler.toml
 
       - name: Generate assets
         if: ${{ !cancelled() }}
@@ -71,4 +59,3 @@ jobs:
             git commit -m "chore: refresh profile assets"
             git push
           fi
-          
