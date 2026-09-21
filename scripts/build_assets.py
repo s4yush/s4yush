@@ -7,6 +7,7 @@ import os
 import random
 import sys
 import time
+import traceback
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -273,6 +274,15 @@ class GitHubClient:
         raise GitHubError(failure)
 
 
+EXTRA_FIELDS = {
+    "following": "following",
+    "gists": "gists(privacy: PUBLIC)",
+    "orgs": "organizations",
+    "starred": "starredRepositories",
+    "contributed_to": "repositoriesContributedTo(first: 1, contributionTypes: [COMMIT, ISSUE, PULL_REQUEST, PULL_REQUEST_REVIEW])",
+    "merged_prs": "pullRequests(states: MERGED)",
+}
+
 PROFILE_FIELDS = """
 login
 id
@@ -280,12 +290,6 @@ name
 avatarUrl(size: 200)
 createdAt
 followers { totalCount }
-following { totalCount }
-gists(privacy: PUBLIC) { totalCount }
-organizations { totalCount }
-starredRepositories { totalCount }
-repositoriesContributedTo(first: 1, contributionTypes: [COMMIT, ISSUE, PULL_REQUEST, PULL_REQUEST_REVIEW]) { totalCount }
-mergedPullRequests: pullRequests(states: MERGED) { totalCount }
 repositories(first: 100, ownerAffiliations: OWNER, privacy: PUBLIC, isFork: false, orderBy: {field: STARGAZERS, direction: DESC}) {
   totalCount
   nodes {
@@ -352,11 +356,11 @@ def parse_repo(node: dict) -> Repo:
     )
 
 
-def aggregate_languages(nodes: Sequence[dict], login: str) -> tuple[Language, ...]:
+def aggregate_languages(nodes: Sequence[dict], login: str, include_profile: bool = False) -> tuple[Language, ...]:
     sizes: dict[str, int] = {}
     colors: dict[str, str] = {}
     for node in nodes:
-        if node["name"].lower() == login.lower():
+        if not include_profile and node["name"].lower() == login.lower():
             continue
         for edge in node["languages"]["edges"]:
             language = edge["node"]
@@ -366,7 +370,8 @@ def aggregate_languages(nodes: Sequence[dict], login: str) -> tuple[Language, ..
     return tuple(Language(name, size, colors[name]) for name, size in ranked)
 
 
-def parse_profile(user: dict, today: date, avatar: str = "", commits: tuple[Commit, ...] = ()) -> Profile:
+def parse_profile(user: dict, today: date, avatar: str = "", commits: tuple[Commit, ...] = (), extras: dict[str, int] | None = None) -> Profile:
+    extras = extras or {}
     nodes = user["repositories"]["nodes"]
     collections = [value for key, value in user.items() if key.startswith("y") and key[1:].isdigit()]
     return Profile(
@@ -375,7 +380,7 @@ def parse_profile(user: dict, today: date, avatar: str = "", commits: tuple[Comm
         followers=user["followers"]["totalCount"],
         repo_count=user["repositories"]["totalCount"],
         repos=tuple(parse_repo(node) for node in nodes),
-        languages=aggregate_languages(nodes, user["login"]),
+        languages=aggregate_languages(nodes, user["login"]) or aggregate_languages(nodes, user["login"], include_profile=True),
         days=merge_days(collections, today),
         commits=sum(item["totalCommitContributions"] for item in collections),
         pull_requests=sum(item["totalPullRequestContributions"] for item in collections),
@@ -385,14 +390,25 @@ def parse_profile(user: dict, today: date, avatar: str = "", commits: tuple[Comm
         user_id=user.get("id", ""),
         name=user.get("name") or "",
         avatar=avatar,
-        following=user["following"]["totalCount"],
-        gists=user["gists"]["totalCount"],
-        orgs=user["organizations"]["totalCount"],
-        starred=user["starredRepositories"]["totalCount"],
-        contributed_to=user["repositoriesContributedTo"]["totalCount"],
-        merged_prs=user["mergedPullRequests"]["totalCount"],
+        following=extras.get("following", 0),
+        gists=extras.get("gists", 0),
+        orgs=extras.get("orgs", 0),
+        starred=extras.get("starred", 0),
+        contributed_to=extras.get("contributed_to", 0),
+        merged_prs=extras.get("merged_prs", 0),
         commit_log=commits,
     )
+
+
+def fetch_extras(client: GitHubClient, login: str) -> dict[str, int]:
+    extras: dict[str, int] = {}
+    for key, field in EXTRA_FIELDS.items():
+        document = f"query($login: String!) {{ user(login: $login) {{ value: {field} {{ totalCount }} }} }}"
+        try:
+            extras[key] = client.execute(document, {"login": login})["user"]["value"]["totalCount"]
+        except (GitHubError, KeyError, TypeError) as error:
+            print(f"Skipping {key}: {error}", file=sys.stderr)
+    return extras
 
 
 def fetch_profile(client: GitHubClient, login: str, now: datetime | None = None) -> Profile:
@@ -410,7 +426,8 @@ def fetch_profile(client: GitHubClient, login: str, now: datetime | None = None)
     except (GitHubError, KeyError, TypeError) as error:
         print(f"Commit history unavailable: {error}", file=sys.stderr)
         commits = ()
-    return parse_profile(user, now.date(), fetch_data_uri(user.get("avatarUrl", "")), commits)
+    extras = fetch_extras(client, login)
+    return parse_profile(user, now.date(), fetch_data_uri(user.get("avatarUrl", "")), commits, extras)
 
 
 COMMIT_QUERY = """
@@ -2219,27 +2236,44 @@ def render_divider() -> str:
     return canvas.render()
 
 
-def build_assets(profile: Profile, identity: Identity, music: Music | None = None, waka: Waka | None = None, now: datetime | None = None) -> dict[str, str | None]:
+def guarded(name: str, factory: Callable[[], str | None], failures: list[str]) -> str | None:
+    try:
+        return factory()
+    except Exception as error:
+        failures.append(f"{name}: {type(error).__name__}: {error}")
+        traceback.print_exc()
+        return None
+
+
+def build_assets(
+    profile: Profile,
+    identity: Identity,
+    music: Music | None = None,
+    waka: Waka | None = None,
+    now: datetime | None = None,
+) -> tuple[dict[str, str | None], list[str]]:
     now = now or datetime.now(timezone.utc)
-    return {
-        "header.svg": render_header(identity),
-        "typing.svg": render_typing(identity),
-        "about.svg": render_about(identity),
-        "profile.svg": render_profile(profile, identity),
-        "stats.svg": render_stats(profile),
-        "mix.svg": render_mix(profile),
-        "achievements.svg": render_achievements(profile),
-        "streak.svg": render_streak(profile),
-        "languages.svg": render_languages(profile),
-        "codestats.svg": render_codestats(profile, now),
-        "rhythm.svg": render_rhythm(profile),
-        "activity.svg": render_activity(profile),
-        "music.svg": render_music(music, now) if music else None,
-        "wakatime.svg": render_wakatime(waka) if waka else None,
-        "projects.svg": render_projects(profile),
-        "divider.svg": render_divider(),
-        "footer.svg": render_footer(identity, profile.today),
+    failures: list[str] = []
+    factories: dict[str, Callable[[], str | None]] = {
+        "header.svg": lambda: render_header(identity),
+        "typing.svg": lambda: render_typing(identity),
+        "about.svg": lambda: render_about(identity),
+        "profile.svg": lambda: render_profile(profile, identity),
+        "stats.svg": lambda: render_stats(profile),
+        "mix.svg": lambda: render_mix(profile),
+        "achievements.svg": lambda: render_achievements(profile),
+        "streak.svg": lambda: render_streak(profile),
+        "languages.svg": lambda: render_languages(profile),
+        "codestats.svg": lambda: render_codestats(profile, now),
+        "rhythm.svg": lambda: render_rhythm(profile),
+        "activity.svg": lambda: render_activity(profile),
+        "music.svg": lambda: render_music(music, now) if music else None,
+        "wakatime.svg": lambda: render_wakatime(waka) if waka else None,
+        "projects.svg": lambda: render_projects(profile),
+        "divider.svg": render_divider,
+        "footer.svg": lambda: render_footer(identity, profile.today),
     }
+    return {name: guarded(name, factory, failures) for name, factory in factories.items()}, failures
 
 
 def write_assets(assets: dict[str, str | None], directory: Path) -> None:
@@ -2267,9 +2301,11 @@ def main() -> int:
     except GitHubError as error:
         print(f"GitHub API error: {error}", file=sys.stderr)
         return 1
-    assets = build_assets(profile, IDENTITY, load_music(), load_waka(profile.today))
+    assets, failures = build_assets(profile, IDENTITY, load_music(), load_waka(profile.today))
     write_assets(assets, ASSETS_DIR)
-    return 0
+    for failure in failures:
+        print(f"FAILED {failure}", file=sys.stderr)
+    return 1 if failures else 0
 
 
 if __name__ == "__main__":
