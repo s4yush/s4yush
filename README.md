@@ -5,7 +5,7 @@
 <p><img src="assets/typing.svg" width="100%" alt="B.Tech CSE Student · Python · C · Git & GitHub · Learning & Building in Public" /></p>
 
 <p>
-  <img src="https://YOUR-WORKER.workers.dev/views/s4yush" width="360" alt="Profile views" />
+  <img src="https://YOUR-DOMAIN/views/s4yush" width="360" alt="Profile views" />
   <img src="https://YOUR-WORKER.workers.dev/clock/s4yush" width="360" alt="Live IST clock" />
 </p>
 
