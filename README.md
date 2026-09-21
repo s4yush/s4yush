@@ -13,15 +13,31 @@
 
 <p><img src="assets/divider.svg" width="100%" alt="" /></p>
 
-<p><img src="assets/stats.svg" width="100%" alt="GitHub stats: contributions, commits, pull requests, issues, reviews, repositories, stars and followers" /></p>
+<p><img src="assets/profile.svg" width="100%" alt="Developer profile with level and experience" /></p>
+
+<p><img src="assets/stats.svg" width="100%" alt="GitHub stats: contributions, commits, pull requests, merged PRs, issues, reviews, repositories, stars, forks and more" /></p>
+
+<p><img src="assets/mix.svg" width="100%" alt="Contribution mix: commits, pull requests, issues and reviews" /></p>
+
+<p><img src="assets/achievements.svg" width="100%" alt="Achievements and tier progress" /></p>
 
 <p><img src="assets/streak.svg" width="100%" alt="Contribution streak: total, current and longest" /></p>
 
+<p><img src="assets/divider.svg" width="100%" alt="" /></p>
+
 <p><img src="assets/languages.svg" width="100%" alt="Top languages across public repositories" /></p>
+
+<p><img src="assets/codestats.svg" width="100%" alt="Code stats: lines added and removed, latest commits" /></p>
+
+<p><img src="assets/rhythm.svg" width="100%" alt="Coding rhythm by hour and weekday" /></p>
+
+<p><img src="assets/activity.svg" width="100%" alt="Contribution heatmap and weekly activity trend" /></p>
 
 <p><img src="assets/divider.svg" width="100%" alt="" /></p>
 
-<p><img src="assets/activity.svg" width="100%" alt="Contribution heatmap and weekly activity trend" /></p>
+<p><img src="assets/music.svg" width="100%" alt="Music listening: now playing, top tracks, artists and genres" /></p>
+
+<p><img src="assets/wakatime.svg" width="100%" alt="WakaTime coding time" /></p>
 
 <p><img src="assets/divider.svg" width="100%" alt="" /></p>
 
