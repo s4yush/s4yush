@@ -4,6 +4,8 @@
 
 <p><img src="assets/typing.svg" width="100%" alt="B.Tech CSE Student · Python · C · Git & GitHub · Learning & Building in Public" /></p>
 
+<p><img src="https://YOUR-WORKER.workers.dev/views/s4yush" width="360" alt="Profile views" /></p>
+
 <p>
   <a href="https://github.com/s4yush"><img src="https://img.shields.io/badge/GitHub-s4yush-161b22?style=for-the-badge&logo=github&logoColor=white" alt="GitHub" /></a>
   <a href="https://github.com/s4yush/my-portfolio"><img src="https://img.shields.io/badge/Portfolio-my--portfolio-1f6feb?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Portfolio" /></a>
