@@ -53,6 +53,29 @@ class Color:
 
 
 @dataclass(frozen=True)
+class Skill:
+    name: str
+    level: int  # 0-100
+    category: str = ""
+
+
+@dataclass(frozen=True)
+class Milestone:
+    when: str
+    title: str
+    detail: str
+    icon: str = "\u2022"
+
+
+@dataclass(frozen=True)
+class Certificate:
+    title: str
+    issuer: str
+    when: str
+    url: str = ""
+
+
+@dataclass(frozen=True)
 class Identity:
     name: str
     class_name: str
@@ -67,6 +90,9 @@ class Identity:
     open_to: tuple[str, ...]
     cta_title: str
     cta_text: str
+    skills: tuple[Skill, ...] = ()
+    timeline: tuple[Milestone, ...] = ()
+    certificates: tuple[Certificate, ...] = ()
 
 
 IDENTITY = Identity(
@@ -88,6 +114,26 @@ IDENTITY = Identity(
     open_to=("Thoughtful teams", "Ambitious products", "Useful engineering work"),
     cta_title="Let's talk about the next build",
     cta_text="Open to thoughtful teams, ambitious products, and useful engineering work.",
+    # Edit these three lists to fit your own stack, story and certificates.
+    skills=(
+        Skill("Python", 85, "Languages"),
+        Skill("C", 65, "Languages"),
+        Skill("JavaScript", 55, "Languages"),
+        Skill("Git & GitHub", 80, "Tools"),
+        Skill("Linux / CLI", 70, "Tools"),
+        Skill("SQL", 50, "Tools"),
+    ),
+    timeline=(
+        Milestone("2023", "Started B.Tech CSE", "Began formal CS education and first lines of code.", "\U0001f393"),
+        Milestone("2024", "First open-source PRs", "Started contributing to public repositories.", "\U0001f680"),
+        Milestone("2025", "Building in public", "Shipping side projects and writing about them.", "\u2728"),
+        Milestone("2026", "Next chapter", "Looking for the next ambitious build.", "\U0001f3af"),
+    ),
+    certificates=(
+        Certificate("Python for Everybody", "University of Michigan", "2024"),
+        Certificate("Git & GitHub Essentials", "GitHub", "2024"),
+        Certificate("CS50x", "Harvard University", "2025"),
+    ),
 )
 
 
@@ -2223,6 +2269,120 @@ def render_wakatime(waka: Waka) -> str:
     return canvas.render()
 
 
+def render_skills(identity: Identity) -> str:
+    skills = identity.skills
+    if not skills:
+        canvas = Canvas(CARD_WIDTH, 170, "Tech stack")
+        frame(canvas, "Tech Stack", "skills & tools")
+        canvas.add(text("Add entries to Identity.skills to populate this card.", CARD_WIDTH / 2, 118, 18, Color.MUTED, 400, "middle"))
+        return canvas.render()
+    columns = 2
+    row_h = 58
+    grid_top = 96
+    rows = math.ceil(len(skills) / columns)
+    height = grid_top + rows * row_h + 24
+    canvas = Canvas(CARD_WIDTH, height, "Tech stack and skill levels")
+    frame(canvas, "Tech Stack", f"{len(skills)} skills \u00b7 self-rated")
+    column_w = (INNER_WIDTH - 24) / columns
+    for index, skill in enumerate(skills):
+        col, row = index % columns, index // columns
+        x = CARD_PAD + col * (column_w + 24)
+        y = grid_top + row * row_h
+        color = PALETTE[index % len(PALETTE)]
+        canvas.add(
+            el(
+                "g",
+                text(skill.name, x, y, 16, Color.TEXT, 700),
+                text(skill.category, x, y + 18, 12, Color.MUTED, 500) if skill.category else "",
+                text(f"{skill.level}%", x + column_w, y, 14, Color.MUTED, 600, "end"),
+                el("rect", x=x, y=y + 26, width=column_w, height=8, rx=4, fill="#21262d"),
+                el(
+                    "rect",
+                    x=x,
+                    y=y + 26,
+                    width=max(column_w * skill.level / 100, 6),
+                    height=8,
+                    rx=4,
+                    fill=color,
+                    class_="grow",
+                    style=f"animation-delay:{0.1 + index * 0.07:.2f}s",
+                ),
+                class_="rise",
+                style=f"animation-delay:{0.05 + index * 0.05:.2f}s",
+            )
+        )
+    return canvas.render()
+
+
+def render_timeline(identity: Identity) -> str:
+    milestones = identity.timeline
+    if not milestones:
+        canvas = Canvas(CARD_WIDTH, 170, "Journey timeline")
+        frame(canvas, "Journey", "milestones")
+        canvas.add(text("Add entries to Identity.timeline to populate this card.", CARD_WIDTH / 2, 118, 18, Color.MUTED, 400, "middle"))
+        return canvas.render()
+    row_h = 92
+    top = 100
+    height = top + len(milestones) * row_h + 16
+    canvas = Canvas(CARD_WIDTH, height, "Journey timeline")
+    frame(canvas, "Journey", f"{len(milestones)} milestones")
+    line_x = CARD_PAD + 22
+    canvas.add(el("rect", x=line_x - 1, y=top - 6, width=2, height=len(milestones) * row_h - 30, fill=Color.BORDER))
+    for index, milestone in enumerate(milestones):
+        y = top + index * row_h
+        color = PALETTE[index % len(PALETTE)]
+        canvas.add(
+            el(
+                "g",
+                el("circle", cx=line_x, cy=y, r=10, fill=Color.PANEL, stroke=color, stroke_width=2.5),
+                text(milestone.icon, line_x, y + 5, 12, color, 700, "middle"),
+                text(milestone.when, CARD_PAD + 52, y - 14, 13, color, 700, letter_spacing=1.2),
+                text(milestone.title, CARD_PAD + 52, y + 10, 19, Color.TEXT, 700),
+                text(shorten(milestone.detail, 70, placeholder="\u2026"), CARD_PAD + 52, y + 32, 14, Color.MUTED, 400),
+                class_="rise",
+                style=f"animation-delay:{0.08 + index * 0.1:.2f}s",
+            )
+        )
+    return canvas.render()
+
+
+def render_certificates(identity: Identity) -> str:
+    certs = identity.certificates
+    if not certs:
+        canvas = Canvas(CARD_WIDTH, 170, "Certificates")
+        frame(canvas, "Certificates", "credentials")
+        canvas.add(text("Add entries to Identity.certificates to populate this card.", CARD_WIDTH / 2, 118, 18, Color.MUTED, 400, "middle"))
+        return canvas.render()
+    columns = 2
+    card_h = 92
+    gap = 16
+    top = 90
+    rows = math.ceil(len(certs) / columns)
+    height = top + rows * (card_h + gap)
+    canvas = Canvas(CARD_WIDTH, height, "Certificates and credentials")
+    frame(canvas, "Certificates", f"{len(certs)} credentials")
+    column_w = (INNER_WIDTH - gap) / columns
+    for index, cert in enumerate(certs):
+        col, row = index % columns, index // columns
+        x = CARD_PAD + col * (column_w + gap)
+        y = top + row * (card_h + gap)
+        color = PALETTE[index % len(PALETTE)]
+        canvas.add(
+            el(
+                "g",
+                el("rect", x=x, y=y, width=column_w, height=card_h, rx=14, fill=Color.PANEL, fill_opacity=0.9, stroke=Color.BORDER),
+                el("circle", cx=x + 34, cy=y + card_h / 2, r=20, fill="none", stroke=color, stroke_width=2.5),
+                el("path", d=f"M{x + 25:.1f},{y + card_h / 2:.1f} l6,7 l12,-14", fill="none", stroke=color, stroke_width=2.6, stroke_linecap="round", stroke_linejoin="round"),
+                text(shorten(cert.title, 26, placeholder="\u2026"), x + 66, y + 34, 16, Color.TEXT, 700),
+                text(shorten(cert.issuer, 30, placeholder="\u2026"), x + 66, y + 55, 13, Color.MUTED, 500),
+                text(cert.when, x + 66, y + 74, 12, color, 600, letter_spacing=1),
+                class_="rise",
+                style=f"animation-delay:{0.08 + index * 0.08:.2f}s",
+            )
+        )
+    return canvas.render()
+
+
 def render_divider() -> str:
     canvas = Canvas(CARD_WIDTH, 14, "Section divider")
     canvas.define(
@@ -2269,6 +2429,9 @@ def build_assets(
         "activity.svg": lambda: render_activity(profile),
         "music.svg": lambda: render_music(music, now) if music else None,
         "wakatime.svg": lambda: render_wakatime(waka) if waka else None,
+        "skills.svg": lambda: render_skills(identity),
+        "timeline.svg": lambda: render_timeline(identity),
+        "certificates.svg": lambda: render_certificates(identity),
         "projects.svg": lambda: render_projects(profile),
         "divider.svg": render_divider,
         "footer.svg": lambda: render_footer(identity, profile.today),
