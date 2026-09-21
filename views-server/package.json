@@ -1,0 +1,13 @@
+{
+  "name": "profile-views-server",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Self-hosted profile views counter (SVG badge), no Cloudflare needed.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
