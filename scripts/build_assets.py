@@ -1,3 +1,51 @@
+from __future__ import annotations
+
+from dataclasses import dataclass
+
+
+@dataclass(frozen=True)
+class Skill:
+    name: str
+    level: int
+    category: str = ""
+
+
+@dataclass(frozen=True)
+class Milestone:
+    when: str
+    title: str
+    detail: str
+    icon: str = "•"
+
+
+@dataclass(frozen=True)
+class Certificate:
+    title: str
+    issuer: str
+    when: str
+    url: str = ""
+
+
+@dataclass(frozen=True)
+class Identity:
+    name: str
+    class_name: str
+    title: str
+    status: str
+    taglines: tuple[str, ...]
+    role: str
+    education: str
+    stack: tuple[str, ...]
+    currently: str
+    next_up: str
+    open_to: tuple[str, ...]
+    cta_title: str
+    cta_text: str
+    skills: tuple[Skill, ...] = ()
+    timeline: tuple[Milestone, ...] = ()
+    certificates: tuple[Certificate, ...] = ()
+
+
 IDENTITY = Identity(
     name="Suyash Singh",
     class_name="Suyash",
