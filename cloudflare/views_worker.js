@@ -109,6 +109,71 @@ ${digits(count)}
 `;
 }
 
+const IST_OFFSET_MINUTES = 5 * 60 + 30;
+const WEEKDAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+function istParts(date) {
+  const utcMinutes = date.getUTCHours() * 60 + date.getUTCMinutes();
+  const totalMinutes = (utcMinutes + IST_OFFSET_MINUTES + 1440) % 1440;
+  const hour24 = Math.floor(totalMinutes / 60);
+  const minute = totalMinutes % 60;
+  const second = date.getUTCSeconds();
+  const dayShift = Math.floor((date.getUTCHours() * 60 + date.getUTCMinutes() + IST_OFFSET_MINUTES) / 1440);
+  const weekday = WEEKDAYS[(date.getUTCDay() + dayShift + 7) % 7];
+  const hour12 = hour24 % 12 === 0 ? 12 : hour24 % 12;
+  const period = hour24 < 12 ? "AM" : "PM";
+  return { hour12, hour24, minute, second, weekday, period };
+}
+
+function clockDigit(x, y, width, height, char, lit) {
+  return `<g>
+  <rect x="${x.toFixed(1)}" y="${y}" width="${width}" height="${height}" rx="9" fill="#161b22" stroke="${lit ? "#3b82f6" : "#30363d"}"/>
+  <text class="mono" x="${(x + width / 2).toFixed(1)}" y="${y + height * 0.7}" font-size="${(height * 0.62).toFixed(1)}" font-weight="800" text-anchor="middle" fill="${lit ? "#e6edf3" : "#3d444d"}">${char}</text>
+</g>`;
+}
+
+function renderClock(id) {
+  const { hour12, minute, second, weekday, period } = istParts(new Date());
+  const hh = String(hour12).padStart(2, "0");
+  const mm = String(minute).padStart(2, "0");
+  const ss = String(second).padStart(2, "0");
+  const digitW = 40;
+  const digitH = 56;
+  const gap = 6;
+  const colonW = 16;
+  const chars = [...hh, ":", ...mm, ":", ...ss];
+  const totalW = chars.reduce((sum, ch) => sum + (ch === ":" ? colonW : digitW) + gap, 0) - gap;
+  const startX = (440 - totalW) / 2;
+  let x = startX;
+  const glyphs = chars
+    .map((ch) => {
+      if (ch === ":") {
+        const g = `<circle cx="${(x + colonW / 2).toFixed(1)}" cy="46" r="3" fill="#8b949e"/><circle cx="${(x + colonW / 2).toFixed(1)}" cy="70" r="3" fill="#8b949e"/>`;
+        x += colonW + gap;
+        return g;
+      }
+      const g = clockDigit(x, 30, digitW, digitH, ch, true);
+      x += digitW + gap;
+      return g;
+    })
+    .join("");
+  const label = `IST time: ${hh}:${mm}:${ss} ${period}, ${weekday}`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="440" height="150" viewBox="0 0 440 150" role="img" aria-label="${escapeXml(label)}">
+<title>${escapeXml(label)}</title>
+<defs>
+  <linearGradient id="clock-bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0d1117"/><stop offset="100%" stop-color="#131b2e"/></linearGradient>
+</defs>
+<style>${STYLE}</style>
+<rect width="440" height="150" rx="20" fill="url(#clock-bg)"/>
+<rect x=".5" y=".5" width="439" height="149" rx="19.5" fill="none" stroke="#30363d"/>
+<text x="220" y="24" font-size="12" font-weight="700" letter-spacing="3" fill="#8b949e" text-anchor="middle">LIVE IN INDIA \u00b7 IST</text>
+${glyphs}
+<text x="220" y="112" font-size="14" font-weight="700" fill="#58a6ff" text-anchor="middle">${escapeXml(period)}</text>
+<text x="220" y="134" font-size="13" font-weight="500" fill="#8b949e" text-anchor="middle">${escapeXml(weekday)} \u00b7 @${escapeXml(id)}</text>
+</svg>
+`;
+}
+
 const clean = (value) => value.toLowerCase().replace(/[^a-z0-9-_]/g, "").slice(0, 39);
 
 export default {
@@ -116,7 +181,16 @@ export default {
     const [route, rawId] = new URL(request.url).pathname.split("/").filter(Boolean);
     const id = clean(rawId ?? "");
     const allowed = (env.ALLOWED_IDS ?? "").split(",").map((entry) => clean(entry.trim())).filter(Boolean);
-    if (route !== "views" || !id || (allowed.length && !allowed.includes(id))) {
+    if (!id || (allowed.length && !allowed.includes(id))) {
+      return new Response("Not found", { status: 404 });
+    }
+
+    if (route === "clock") {
+      if (request.method === "HEAD") return new Response(null, { headers: HEADERS });
+      return new Response(renderClock(id), { headers: HEADERS });
+    }
+
+    if (route !== "views") {
       return new Response("Not found", { status: 404 });
     }
     const key = `views:${id}`;
