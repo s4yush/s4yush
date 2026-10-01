@@ -1,0 +1,18 @@
+{
+  "login": "s4yush",
+  "projects": 4,
+  "exclude_repos": [],
+  "exclude_languages": ["HTML", "CSS", "Dockerfile", "Makefile"],
+  "theme": {
+    "bg1": "#0f1b33",
+    "bg2": "#070b14",
+    "bar1": "#1c2740",
+    "bar2": "#121a2c",
+    "a1": "#5eead4",
+    "a2": "#a78bfa",
+    "a3": "#7aa2f7",
+    "text": "#e6edf3",
+    "muted": "#8b98b3",
+    "grid": "#26334f"
+  }
+}
