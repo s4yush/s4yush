@@ -1,0 +1,38 @@
+{
+  "_comment": "Edit this file to update your profile. No Python needed — just save and let the workflow rebuild. Leave 'certificates' as [] to show a 'Coming soon' card; add entries to replace it.",
+
+  "name": "Suyash Singh",
+  "title": "Product-minded Developer",
+  "status": "Building and sharing work in public",
+
+  "taglines": [
+    "B.Tech CSE Student",
+    "Python • C • Git & GitHub",
+    "Learning & Building in Public",
+    "More Projects Coming Soon"
+  ],
+
+  "role": "Product-minded developer",
+  "education": "B.Tech CSE",
+  "stack": ["Python", "C", "Git", "GitHub"],
+  "currently": "Learning & building in public",
+  "next_up": "More projects coming soon",
+  "open_to": ["Thoughtful teams", "Ambitious products", "Useful engineering work"],
+
+  "cta_title": "Let's talk about the next build",
+  "cta_text": "Open to thoughtful teams, ambitious products, and useful engineering work.",
+
+  "skills": [
+    { "name": "Python", "level": 70, "category": "Languages" },
+    { "name": "C", "level": 55, "category": "Languages" },
+    { "name": "Git & GitHub", "level": 65, "category": "Tools" },
+    { "name": "Linux / CLI", "level": 50, "category": "Tools" }
+  ],
+
+  "timeline": [
+    { "when": "2026", "title": "Started B.Tech CSE", "detail": "Day one of CS — first lines of code.", "icon": "🎓" },
+    { "when": "2026", "title": "Building in public", "detail": "Started sharing projects and progress openly.", "icon": "✨" }
+  ],
+
+  "certificates": []
+}
