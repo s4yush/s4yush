@@ -4,10 +4,9 @@
 
 <p><img src="assets/typing.svg" width="100%" alt="B.Tech CSE Student · Python · C · Git & GitHub · Learning & Building in Public" /></p>
 
-<p>
-  <img src="https://YOUR-WORKER.workers.dev/views/s4yush" width="360" alt="Profile views" />
-  <img src="https://YOUR-WORKER.workers.dev/clock/s4yush" width="360" alt="Live IST clock" />
-</p>
+<p><img src="assets/snapshot.svg" width="100%" alt="GitHub snapshot: followers, following, repositories and stars" /></p>
+
+<p><img src="assets/clock.svg" width="100%" alt="India time as of the last refresh" /></p>
 
 <p>
   <a href="https://github.com/s4yush"><img src="https://img.shields.io/badge/GitHub-s4yush-161b22?style=for-the-badge&logo=github&logoColor=white" alt="GitHub" /></a>
