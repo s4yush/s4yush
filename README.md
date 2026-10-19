@@ -8,6 +8,7 @@
 
 <p><img src="assets/clock.svg" width="100%" alt="India time as of the last refresh" /></p>
 
+<p><img src="https://komarev.com/ghpvc/?username=s4yush&label=Profile+views&color=blue&style=flat-square" alt="Profile views" /></p>
 <p>
   <a href="https://github.com/s4yush"><img src="https://img.shields.io/badge/GitHub-s4yush-161b22?style=for-the-badge&logo=github&logoColor=white" alt="GitHub" /></a>
   <a href="https://github.com/s4yush/my-portfolio"><img src="https://img.shields.io/badge/Portfolio-my--portfolio-1f6feb?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Portfolio" /></a>
