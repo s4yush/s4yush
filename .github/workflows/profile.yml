@@ -1,22 +1,14 @@
-name: Profile Assets
+name: Profile Assets (run once)
 
 on:
-  schedule:
-    - cron: "0 */6 * * *"
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - scripts/**
-      - cloudflare/**
-      - .github/workflows/profile.yml
 
 permissions:
   contents: write
 
 concurrency:
   group: profile-assets
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   build:
@@ -31,7 +23,6 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Check config
-        if: ${{ !cancelled() }}
         env:
           SPOTIFY_CLIENT_ID: ${{ secrets.SPOTIFY_CLIENT_ID }}
           SPOTIFY_CLIENT_SECRET: ${{ secrets.SPOTIFY_CLIENT_SECRET }}
@@ -42,11 +33,11 @@ jobs:
         run: python3 scripts/config.py || true
 
       - name: Prepare views counter
-        if: ${{ env.CLOUDFLARE_API_TOKEN != '' && github.event_name != 'schedule' }}
+        if: ${{ env.CLOUDFLARE_API_TOKEN != '' }}
         run: python3 scripts/deploy_views.py
 
       - name: Deploy views counter
-        if: ${{ env.CLOUDFLARE_API_TOKEN != '' && github.event_name != 'schedule' }}
+        if: ${{ env.CLOUDFLARE_API_TOKEN != '' }}
         run: npx --yes wrangler@4 deploy --config cloudflare/wrangler.toml
 
       - name: Generate assets
@@ -79,6 +70,7 @@ jobs:
           if git diff --cached --quiet; then
             echo "Nothing to commit"
           else
-            git commit -m "chore: refresh profile assets"
+            git commit -m "chore: refresh profile assets (manual run)"
+            git pull --rebase
             git push
           fi
