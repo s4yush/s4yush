@@ -85,7 +85,7 @@ function digits(count) {
     .join("");
 }
 
-export function renderCounter(count, id) {
+function renderCounter(count, id) {
   const label = `Profile views: ${count.toLocaleString("en-US")}`;
   return `<svg xmlns="http://www.w3.org/2000/svg" width="420" height="150" viewBox="0 0 420 150" role="img" aria-label="${escapeXml(label)}">
 <title>${escapeXml(label)}</title>
@@ -109,67 +109,115 @@ ${digits(count)}
 `;
 }
 
-const IST_OFFSET_MINUTES = 5 * 60 + 30;
+const IST_OFFSET_MS = (5 * 60 + 30) * 60 * 1000;
 const WEEKDAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+const HOUR_TENS = [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1];
+const HOUR_ONES = [2, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1];
+const SECONDS_IN_DAY = 86400;
 
 function istParts(date) {
-  const utcMinutes = date.getUTCHours() * 60 + date.getUTCMinutes();
-  const totalMinutes = (utcMinutes + IST_OFFSET_MINUTES + 1440) % 1440;
-  const hour24 = Math.floor(totalMinutes / 60);
-  const minute = totalMinutes % 60;
-  const second = date.getUTCSeconds();
-  const dayShift = Math.floor((date.getUTCHours() * 60 + date.getUTCMinutes() + IST_OFFSET_MINUTES) / 1440);
-  const weekday = WEEKDAYS[(date.getUTCDay() + dayShift + 7) % 7];
-  const hour12 = hour24 % 12 === 0 ? 12 : hour24 % 12;
-  const period = hour24 < 12 ? "AM" : "PM";
-  return { hour12, hour24, minute, second, weekday, period };
+  const shifted = new Date(date.getTime() + IST_OFFSET_MS);
+  return {
+    hour24: shifted.getUTCHours(),
+    minute: shifted.getUTCMinutes(),
+    second: shifted.getUTCSeconds() + shifted.getUTCMilliseconds() / 1000,
+    day: shifted.getUTCDay(),
+  };
 }
 
-function clockDigit(x, y, width, height, char, lit) {
-  return `<g>
-  <rect x="${x.toFixed(1)}" y="${y}" width="${width}" height="${height}" rx="9" fill="#161b22" stroke="${lit ? "#3b82f6" : "#30363d"}"/>
-  <text class="mono" x="${(x + width / 2).toFixed(1)}" y="${y + height * 0.7}" font-size="${(height * 0.62).toFixed(1)}" font-weight="800" text-anchor="middle" fill="${lit ? "#e6edf3" : "#3d444d"}">${char}</text>
-</g>`;
-}
-
-function renderClock(id) {
-  const { hour12, minute, second, weekday, period } = istParts(new Date());
-  const hh = String(hour12).padStart(2, "0");
-  const mm = String(minute).padStart(2, "0");
-  const ss = String(second).padStart(2, "0");
+function renderClock(id, date = new Date()) {
+  const { hour24, minute, second, day } = istParts(date);
+  const secondsOfDay = hour24 * 3600 + minute * 60 + second;
   const digitW = 40;
   const digitH = 56;
   const gap = 6;
   const colonW = 16;
-  const chars = [...hh, ":", ...mm, ":", ...ss];
-  const totalW = chars.reduce((sum, ch) => sum + (ch === ":" ? colonW : digitW) + gap, 0) - gap;
-  const startX = (440 - totalW) / 2;
-  let x = startX;
-  const glyphs = chars
-    .map((ch) => {
-      if (ch === ":") {
-        const g = `<circle cx="${(x + colonW / 2).toFixed(1)}" cy="46" r="3" fill="#8b949e"/><circle cx="${(x + colonW / 2).toFixed(1)}" cy="70" r="3" fill="#8b949e"/>`;
+  const top = 30;
+  const keyframes = new Set();
+  const clips = [];
+
+  const column = (values, startIndex, period, elapsed, x, y, w, h, anchorX, anchor, size, fill, weight, mono) => {
+    const clipId = `c${clips.length}`;
+    clips.push(`<clipPath id="${clipId}"><rect x="${x.toFixed(1)}" y="${y}" width="${w}" height="${h}"/></clipPath>`);
+    const name = `r${values.length}x${h}`;
+    keyframes.add(`@keyframes ${name}{from{transform:translateY(0)}to{transform:translateY(-${values.length * h}px)}}`);
+    const baseline = y + h * 0.7;
+    const items = values
+      .map(
+        (value, index) =>
+          `<text${mono ? ' class="mono"' : ""} x="${anchorX.toFixed(1)}" y="${(baseline + index * h).toFixed(1)}" font-size="${size}" font-weight="${weight}" text-anchor="${anchor}" fill="${fill}">${escapeXml(value)}</text>`,
+      )
+      .join("");
+    const motion = `animation-name:${name};animation-duration:${period}s;animation-timing-function:steps(${values.length},end);animation-iteration-count:infinite;animation-delay:-${elapsed.toFixed(3)}s`;
+    return `<g clip-path="url(#${clipId})"><g style="transform:translateY(-${startIndex * h}px);${motion}">${items}</g></g>`;
+  };
+
+  const slots = [
+    { type: "digit", values: HOUR_TENS, start: hour24 % 12, period: 43200, elapsed: (hour24 % 12) * 3600 + minute * 60 + second },
+    { type: "digit", values: HOUR_ONES, start: hour24 % 12, period: 43200, elapsed: (hour24 % 12) * 3600 + minute * 60 + second },
+    { type: "colon" },
+    { type: "digit", values: [0, 1, 2, 3, 4, 5], start: Math.floor(minute / 10), period: 3600, elapsed: minute * 60 + second },
+    { type: "digit", values: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], start: minute % 10, period: 600, elapsed: (minute % 10) * 60 + second },
+    { type: "colon" },
+    { type: "digit", values: [0, 1, 2, 3, 4, 5], start: Math.floor(second / 10), period: 60, elapsed: second },
+    { type: "digit", values: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], start: Math.floor(second % 10), period: 10, elapsed: second % 10 },
+  ];
+  const totalW = slots.reduce((sum, slot) => sum + (slot.type === "colon" ? colonW : digitW) + gap, 0) - gap;
+  let x = (440 - totalW) / 2;
+  const glyphs = slots
+    .map((slot) => {
+      if (slot.type === "colon") {
+        const cx = (x + colonW / 2).toFixed(1);
+        const mid = top + digitH / 2;
         x += colonW + gap;
-        return g;
+        return `<circle cx="${cx}" cy="${mid - 12}" r="3" fill="#8b949e"/><circle cx="${cx}" cy="${mid + 12}" r="3" fill="#8b949e"/>`;
       }
-      const g = clockDigit(x, 30, digitW, digitH, ch, true);
+      const box = `<rect x="${x.toFixed(1)}" y="${top}" width="${digitW}" height="${digitH}" rx="9" fill="#161b22" stroke="#3b82f6"/>`;
+      const roll = column(slot.values, slot.start, slot.period, slot.elapsed, x, top, digitW, digitH, x + digitW / 2, "middle", (digitH * 0.62).toFixed(1), "#e6edf3", 800, true);
       x += digitW + gap;
-      return g;
+      return `<g>${box}${roll}</g>`;
     })
     .join("");
-  const label = `IST time: ${hh}:${mm}:${ss} ${period}, ${weekday}`;
+
+  const isPm = hour24 >= 12;
+  const ampmMotion = (name) =>
+    `animation-name:${name};animation-duration:${SECONDS_IN_DAY}s;animation-timing-function:linear;animation-iteration-count:infinite;animation-delay:-${secondsOfDay.toFixed(3)}s`;
+  keyframes.add("@keyframes am{0%,49.9999%{opacity:1}50%,100%{opacity:0}}");
+  keyframes.add("@keyframes pm{0%,49.9999%{opacity:0}50%,100%{opacity:1}}");
+  const period = `<text x="220" y="112" font-size="14" font-weight="700" fill="#58a6ff" text-anchor="middle" style="opacity:${isPm ? 0 : 1};${ampmMotion("am")}">AM</text><text x="220" y="112" font-size="14" font-weight="700" fill="#58a6ff" text-anchor="middle" style="opacity:${isPm ? 1 : 0};${ampmMotion("pm")}">PM</text>`;
+
+  const weekday = column(
+    WEEKDAYS,
+    day,
+    604800,
+    day * SECONDS_IN_DAY + secondsOfDay,
+    70,
+    120,
+    300,
+    22,
+    220,
+    "middle",
+    13,
+    "#8b949e",
+    500,
+    false,
+  );
+
+  const hh = String(hour24 % 12 === 0 ? 12 : hour24 % 12).padStart(2, "0");
+  const label = `IST time: ${hh}:${String(minute).padStart(2, "0")}:${String(Math.floor(second)).padStart(2, "0")} ${isPm ? "PM" : "AM"}, ${WEEKDAYS[day]}`;
   return `<svg xmlns="http://www.w3.org/2000/svg" width="440" height="150" viewBox="0 0 440 150" role="img" aria-label="${escapeXml(label)}">
 <title>${escapeXml(label)}</title>
 <defs>
   <linearGradient id="clock-bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0d1117"/><stop offset="100%" stop-color="#131b2e"/></linearGradient>
+  ${clips.join("")}
 </defs>
-<style>${STYLE}</style>
+<style>${STYLE}${[...keyframes].join("")}</style>
 <rect width="440" height="150" rx="20" fill="url(#clock-bg)"/>
 <rect x=".5" y=".5" width="439" height="149" rx="19.5" fill="none" stroke="#30363d"/>
 <text x="220" y="24" font-size="12" font-weight="700" letter-spacing="3" fill="#8b949e" text-anchor="middle">LIVE IN INDIA \u00b7 IST</text>
 ${glyphs}
-<text x="220" y="112" font-size="14" font-weight="700" fill="#58a6ff" text-anchor="middle">${escapeXml(period)}</text>
-<text x="220" y="134" font-size="13" font-weight="500" fill="#8b949e" text-anchor="middle">${escapeXml(weekday)} \u00b7 @${escapeXml(id)}</text>
+${period}
+${weekday}
 </svg>
 `;
 }
