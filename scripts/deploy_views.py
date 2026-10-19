@@ -109,10 +109,10 @@ def main() -> int:
     except CloudflareError as error:
         print(f"Cloudflare error: {error}", file=sys.stderr)
         return 1
-    config = write_config(namespace, login, ROOT / "cloudflare")
+    config_path = write_config(namespace, login, ROOT / "cloudflare")
     patched = patch_readme(ROOT / "README.md", host)
     print(f"KV namespace ready: {namespace}")
-    print(f"Config written: {config.relative_to(ROOT)}")
+    print(f"Config written: {config_path.relative_to(ROOT)}")
     print(f"Counter URL: https://{host}/views/{slugify(login)}")
     print("README updated with the counter URL" if patched else "README already points to a counter URL")
     return 0
