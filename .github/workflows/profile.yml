@@ -2,10 +2,13 @@ name: Profile Assets
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: "0 */6 * * *"
   push:
     branches: [main]
     paths:
       - .github/workflows/profile.yml
+      - scripts/extra_assets.py
 
 permissions:
   contents: write
@@ -20,9 +23,6 @@ jobs:
     timeout-minutes: 12
     env:
       PROFILE_LOGIN: ${{ github.repository_owner }}
-      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-      WRANGLER_SEND_METRICS: "false"
     steps:
       - uses: actions/checkout@v4
 
@@ -37,14 +37,6 @@ jobs:
           WAKATIME_API_KEY: ${{ secrets.WAKATIME_API_KEY }}
         run: python3 scripts/config.py || true
 
-      - name: Prepare views counter
-        if: ${{ env.CLOUDFLARE_API_TOKEN != '' }}
-        run: python3 scripts/deploy_views.py
-
-      - name: Deploy views counter
-        if: ${{ env.CLOUDFLARE_API_TOKEN != '' }}
-        run: npx --yes wrangler@4 deploy --config cloudflare/wrangler.toml
-
       - name: Generate assets
         if: ${{ !cancelled() }}
         env:
@@ -56,6 +48,12 @@ jobs:
           LASTFM_USERNAME: ${{ secrets.LASTFM_USERNAME }}
           WAKATIME_API_KEY: ${{ secrets.WAKATIME_API_KEY }}
         run: python3 scripts/build_assets.py
+
+      - name: Generate clock and snapshot
+        if: ${{ !cancelled() }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 scripts/extra_assets.py
 
       - name: Generate contribution snake
         if: ${{ !cancelled() }}
