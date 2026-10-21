@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="440" height="150" viewBox="0 0 440 150" role="img" aria-label="India time at last refresh: 02:41 AM, Wednesday">
-<title>India time at last refresh: 02:41 AM, Wednesday</title>
+<svg xmlns="http://www.w3.org/2000/svg" width="440" height="150" viewBox="0 0 440 150" role="img" aria-label="India time at last refresh: 08:36 AM, Wednesday">
+<title>India time at last refresh: 08:36 AM, Wednesday</title>
 <defs>
   <linearGradient id="clock-bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0d1117"/><stop offset="100%" stop-color="#131b2e"/></linearGradient>
 </defs>
@@ -7,7 +7,7 @@
 <rect width="440" height="150" rx="20" fill="url(#clock-bg)"/>
 <rect x=".5" y=".5" width="439" height="149" rx="19.5" fill="none" stroke="#30363d"/>
 <text x="220" y="24" font-size="12" font-weight="700" letter-spacing="3" fill="#8b949e" text-anchor="middle">INDIA TIME · IST</text>
-<g><rect x="107.0" y="30" width="46" height="60" rx="9" fill="#161b22" stroke="#3b82f6"/><text class="mono" x="130.0" y="72.0" font-size="37.2" font-weight="800" text-anchor="middle" fill="#e6edf3">0</text></g><g><rect x="159.0" y="30" width="46" height="60" rx="9" fill="#161b22" stroke="#3b82f6"/><text class="mono" x="182.0" y="72.0" font-size="37.2" font-weight="800" text-anchor="middle" fill="#e6edf3">2</text></g><circle cx="220.0" cy="48.0" r="3" fill="#8b949e"/><circle cx="220.0" cy="72.0" r="3" fill="#8b949e"/><g><rect x="235.0" y="30" width="46" height="60" rx="9" fill="#161b22" stroke="#3b82f6"/><text class="mono" x="258.0" y="72.0" font-size="37.2" font-weight="800" text-anchor="middle" fill="#e6edf3">4</text></g><g><rect x="287.0" y="30" width="46" height="60" rx="9" fill="#161b22" stroke="#3b82f6"/><text class="mono" x="310.0" y="72.0" font-size="37.2" font-weight="800" text-anchor="middle" fill="#e6edf3">1</text></g>
+<g><rect x="107.0" y="30" width="46" height="60" rx="9" fill="#161b22" stroke="#3b82f6"/><text class="mono" x="130.0" y="72.0" font-size="37.2" font-weight="800" text-anchor="middle" fill="#e6edf3">0</text></g><g><rect x="159.0" y="30" width="46" height="60" rx="9" fill="#161b22" stroke="#3b82f6"/><text class="mono" x="182.0" y="72.0" font-size="37.2" font-weight="800" text-anchor="middle" fill="#e6edf3">8</text></g><circle cx="220.0" cy="48.0" r="3" fill="#8b949e"/><circle cx="220.0" cy="72.0" r="3" fill="#8b949e"/><g><rect x="235.0" y="30" width="46" height="60" rx="9" fill="#161b22" stroke="#3b82f6"/><text class="mono" x="258.0" y="72.0" font-size="37.2" font-weight="800" text-anchor="middle" fill="#e6edf3">3</text></g><g><rect x="287.0" y="30" width="46" height="60" rx="9" fill="#161b22" stroke="#3b82f6"/><text class="mono" x="310.0" y="72.0" font-size="37.2" font-weight="800" text-anchor="middle" fill="#e6edf3">6</text></g>
 <text x="220" y="112" font-size="14" font-weight="700" fill="#58a6ff" text-anchor="middle">AM</text>
 <text x="220" y="134" font-size="13" font-weight="500" fill="#8b949e" text-anchor="middle">Wednesday · last refresh</text>
 </svg>
