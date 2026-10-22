@@ -11,7 +11,7 @@
 
 <p>
   <a href="https://github.com/s4yush"><img src="https://img.shields.io/badge/GitHub-s4yush-161b22?style=for-the-badge&logo=github&logoColor=white" alt="GitHub" /></a>
-  <a href="https://github.com/s4yush/my-portfolio"><img src="https://img.shields.io/badge/Portfolio-my--portfolio-1f6feb?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Portfolio" /></a>
+  <a href="https://github.com/s4yush/portfolio"><img src="https://img.shields.io/badge/Portfolio-my--portfolio-1f6feb?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Portfolio" /></a>
 </p>
 
 <p><img src="https://s4yush.vercel.app/about.svg" width="100%" alt="About Suyash: product-minded developer, B.Tech CSE, working with Python, C, Git and GitHub" /></p>
