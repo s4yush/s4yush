@@ -764,11 +764,14 @@ def load_music() -> Music | None:
         providers.append(("Spotify", lambda: fetch_spotify(SpotifyClient(*config.SPOTIFY.as_tuple()))))
     if config.LASTFM.configured:
         providers.append(("Last.fm", lambda: fetch_lastfm(LastFmClient(*config.LASTFM.as_tuple()))))
+    if not providers:
+        print("No music provider configured", file=sys.stderr)
     for name, loader in providers:
         try:
             return loader()
         except SOFT_ERRORS as error:
-            print(f"{name} unavailable: {error}", file=sys.stderr)
+            detail = error.read().decode("utf-8", "replace")[:300] if isinstance(error, urllib.error.HTTPError) else ""
+            print(f"{name} unavailable: {error} {detail}".strip(), file=sys.stderr)
     return None
 
 
@@ -2279,6 +2282,7 @@ def render_wakatime(waka: Waka) -> str:
     gap, tile_h, top = 16, 96, 84
     tile_w = (INNER_WIDTH - gap * 2) / 3
     languages_y = top + tile_h + 78
+    bar_w = 360
     languages = waka.languages
     lower_y = languages_y + 22 + len(languages) * 36 + 26
     lower_rows = max(len(waka.editors), len(waka.systems), 1)
@@ -2292,7 +2296,7 @@ def render_wakatime(waka: Waka) -> str:
                 "g",
                 el("rect", x=x, y=top, width=tile_w, height=tile_h, rx=14, fill=Color.PANEL, fill_opacity=0.9, stroke=Color.BORDER),
                 el("rect", x=x + 18, y=top + 16, width=28, height=4, rx=2, fill=color),
-                text(shorten(value, 16, placeholder="\u2026"), x + 18, top + 58, 24, color, 800),
+                text(value, x + 18, top + 58, min(24, (tile_w - 36) / max(len(value) * 0.62, 1)), color, 800),
                 text(label, x + 18, top + 80, 15, Color.MUTED, 500),
                 class_="rise",
                 style=f"animation-delay:{index * 0.08:.2f}s",
@@ -2306,9 +2310,9 @@ def render_wakatime(waka: Waka) -> str:
             el(
                 "g",
                 text(shorten(name, 14, placeholder="\u2026"), CARD_PAD, y, 16, Color.TEXT, 600),
-                el("rect", x=170, y=y - 12, width=400, height=12, rx=6, fill="#21262d"),
-                el("rect", x=170, y=y - 12, width=max(400 * percent / 100, 12), height=12, rx=6, fill=color, class_="grow", style=f"animation-delay:{0.3 + index * 0.08:.2f}s"),
-                text(f"{percent:.1f}%  \u00b7  {label}" if label else f"{percent:.1f}%", CARD_WIDTH - CARD_PAD, y, 14, Color.MUTED, 500, "end"),
+                el("rect", x=170, y=y - 12, width=bar_w, height=12, rx=6, fill="#21262d"),
+                el("rect", x=170, y=y - 12, width=max(bar_w * percent / 100, 12), height=12, rx=6, fill=color, class_="grow", style=f"animation-delay:{0.3 + index * 0.08:.2f}s"),
+                text(f"{percent:.2f}%  \u00b7  {label}" if label else f"{percent:.2f}%", CARD_WIDTH - CARD_PAD, y, 14, Color.MUTED, 500, "end"),
                 class_="rise",
                 style=f"animation-delay:{0.1 + index * 0.06:.2f}s",
             )
