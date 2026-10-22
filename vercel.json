@@ -1,0 +1,11 @@
+{
+  "functions": {
+    "api/card.py": {
+      "includeFiles": "{lib/**,content.json}",
+      "maxDuration": 60
+    }
+  },
+  "rewrites": [
+    { "source": "/:name.svg", "destination": "/api/card?name=:name" }
+  ]
+}
