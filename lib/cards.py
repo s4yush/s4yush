@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import threading
 import time
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
@@ -18,10 +19,12 @@ CLOCK = "public, max-age=0, s-maxage=20, stale-while-revalidate=20"
 VIEWS = "public, max-age=0, s-maxage=30, stale-while-revalidate=30"
 
 STORE: dict[str, tuple[float, object]] = {}
+LOCK = threading.Lock()
 
 
 def remembered(key: str, ttl: float, load: Callable[[], T | None]) -> T | None:
-    entry = STORE.get(key)
+    with LOCK:
+        entry = STORE.get(key)
     now = time.monotonic()
     if entry and now - entry[0] < ttl:
         return entry[1]
@@ -33,7 +36,8 @@ def remembered(key: str, ttl: float, load: Callable[[], T | None]) -> T | None:
         raise
     if value is None:
         return entry[1] if entry else None
-    STORE[key] = (now, value)
+    with LOCK:
+        STORE[key] = (now, value)
     return value
 
 

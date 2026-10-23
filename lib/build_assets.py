@@ -29,6 +29,7 @@ MIN_WEEKS = 16
 MAX_WEEKS = 53
 CARD_WIDTH = 800
 CARD_PAD = 32
+CARD_RADIUS = 28
 INNER_WIDTH = CARD_WIDTH - 2 * CARD_PAD
 NBSP = "\u00a0"
 UTC_OFFSET_HOURS = 5.5
@@ -37,12 +38,12 @@ BLANK_SVG = '<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1" view
 
 
 class Color:
-    BG = "#0d1117"
-    BG_SOFT = "#131b2e"
-    PANEL = "#161b22"
-    BORDER = "#30363d"
-    TEXT = "#e6edf3"
-    MUTED = "#8b949e"
+    BG = "#050816"
+    BG_SOFT = "#0b1226"
+    PANEL = "#121a33"
+    BORDER = "#34406a"
+    TEXT = "#f5f7ff"
+    MUTED = "#9aa7c7"
     BLUE = "#58a6ff"
     CYAN = "#39c5cf"
     PURPLE = "#bc8cff"
@@ -585,8 +586,11 @@ def parse_commits(user: dict) -> tuple[Commit, ...]:
     return tuple(commits)
 
 
+IMAGE_TYPES = frozenset({"image/jpeg", "image/png", "image/webp", "image/gif"})
+
+
 def fetch_data_uri(url: str) -> str:
-    if not url:
+    if not url or urllib.parse.urlparse(url).scheme != "https":
         return ""
     request = urllib.request.Request(url, headers={"User-Agent": "profile-assets-builder"})
     try:
@@ -595,7 +599,7 @@ def fetch_data_uri(url: str) -> str:
             payload = response.read(400_000)
     except (urllib.error.URLError, TimeoutError, ValueError):
         return ""
-    if not kind.startswith("image/") or len(payload) >= 400_000:
+    if kind not in IMAGE_TYPES or len(payload) >= 400_000:
         return ""
     return f"data:{kind};base64,{base64.b64encode(payload).decode('ascii')}"
 
@@ -1109,7 +1113,7 @@ def fork_icon(x: float, y: float, stroke: str) -> str:
 
 BASE_STYLE = "".join(
     (
-        "text{font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,Roboto,'Noto Sans','Helvetica Neue',Arial,sans-serif}",
+        "text{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','SF Pro Text','Inter','Segoe UI',Roboto,'Noto Sans','Helvetica Neue',Arial,sans-serif}",
         ".mono{font-family:'SFMono-Regular',Consolas,'Liberation Mono',Menlo,'DejaVu Sans Mono',monospace}",
         ".rise{animation:rise .8s cubic-bezier(.2,.7,.2,1) both}",
         ".fade{animation:fade .9s ease both}",
@@ -1177,7 +1181,7 @@ class Canvas:
             (
                 head,
                 el("title", esc(self.label)),
-                el("defs", *self.definitions),
+                el("defs", *glass_defs(), *self.definitions),
                 el("style", BASE_STYLE, *self.rules),
                 *self.nodes,
                 "</svg>\n",
@@ -1185,29 +1189,61 @@ class Canvas:
         )
 
 
+def glass_defs() -> list[str]:
+    return [
+        linear("g-bg", stop(0, "#050816"), stop(55, "#0a1030"), stop(100, "#07162c"), x2=1, y2=1),
+        linear("g-panel", stop(0, "#ffffff", 0.10), stop(100, "#ffffff", 0.03), x2=1, y2=1),
+        linear("g-tile", stop(0, "#ffffff", 0.12), stop(55, "#ffffff", 0.05), stop(100, "#ffffff", 0.08), x2=1, y2=1),
+        linear("g-edge", stop(0, "#ffffff", 0.55), stop(35, "#ffffff", 0.10), stop(70, "#a5b4ff", 0.14), stop(100, "#ffffff", 0.38), x2=1, y2=1),
+        linear("g-shine", stop(0, "#ffffff", 0.18), stop(100, "#ffffff", 0), x2=0, y2=1),
+    ]
+
+
+def glass_markup() -> str:
+    return "".join(glass_defs())
+
+
+def aurora(width: float, height: float) -> list[str]:
+    palette = (("aurora-a", False), ("aurora-b", True), ("aurora-c", False), ("aurora-b", True))
+    radius = min(max(width * 0.42, 200.0), 360.0)
+    orbs: list[str] = []
+    index = 0
+    y = 40.0
+    while y < height + radius * 0.4:
+        ident, right = palette[index % len(palette)]
+        x = width * (0.9 if right else 0.1)
+        orbs.append(el("circle", cx=round(x, 1), cy=round(y, 1), r=round(radius, 1), fill=f"url(#{ident})", class_="orb-b" if right else "orb-a"))
+        y += radius * 1.25
+        index += 1
+    return orbs
+
+
 def frame(canvas: Canvas, title: str = "", meta: str = "") -> None:
     width, height = canvas.width, canvas.height
+    shine = min(150.0, height * 0.32)
     canvas.define(
-        linear("card-bg", stop(0, Color.BG), stop(100, Color.BG_SOFT), x2=1, y2=1),
         linear("card-accent", stop(0, Color.BLUE), stop(100, Color.PURPLE), x2=0, y2=1),
-        el(
-            "pattern",
-            el("circle", cx=1, cy=1, r=1, fill="#ffffff", fill_opacity=0.05),
-            id="card-dots",
-            width=18,
-            height=18,
-            patternUnits="userSpaceOnUse",
-        ),
+        radial("aurora-a", Color.BLUE, 0.5),
+        radial("aurora-b", Color.PURPLE, 0.45),
+        radial("aurora-c", Color.CYAN, 0.34),
+        el("clipPath", el("rect", width=width, height=height, rx=CARD_RADIUS), id="card-clip"),
     )
     canvas.add(
-        el("rect", width=width, height=height, rx=20, fill="url(#card-bg)"),
-        el("rect", width=width, height=height, rx=20, fill="url(#card-dots)"),
-        el("rect", x=0.5, y=0.5, width=width - 1, height=height - 1, rx=19.5, fill="none", stroke=Color.BORDER),
+        el(
+            "g",
+            el("rect", width=width, height=height, fill="url(#g-bg)"),
+            *aurora(width, height),
+            el("rect", width=width, height=height, fill="url(#g-panel)"),
+            el("rect", x=0, y=0, width=width, height=shine, fill="url(#g-shine)"),
+            clip_path="url(#card-clip)",
+        ),
+        el("rect", x=1.5, y=1.5, width=width - 3, height=height - 3, rx=CARD_RADIUS - 1.5, fill="none", stroke="#ffffff", stroke_opacity=0.05),
+        el("rect", x=0.6, y=0.6, width=width - 1.2, height=height - 1.2, rx=CARD_RADIUS - 0.6, fill="none", stroke="url(#g-edge)", stroke_width=1.2),
     )
     if title:
         canvas.add(
             el("rect", x=CARD_PAD, y=28, width=5, height=24, rx=2.5, fill="url(#card-accent)"),
-            text(title, CARD_PAD + 16, 47, 22, Color.TEXT, 700),
+            text(title, CARD_PAD + 16, 47, 22, Color.TEXT, 700, letter_spacing=0.2),
         )
     if meta:
         canvas.add(text(meta, width - CARD_PAD, 46, 15, Color.MUTED, anchor="end"))
@@ -1222,9 +1258,9 @@ def wave_layers(width: float, height: float, layers: Sequence[tuple[float, float
 
 def wave_gradients() -> list[str]:
     return [
-        linear("wave-a", stop(0, Color.BLUE, 0.36), stop(100, Color.PURPLE, 0.36)),
-        linear("wave-b", stop(0, Color.PURPLE, 0.3), stop(100, Color.PINK, 0.3)),
-        linear("wave-c", stop(0, Color.CYAN, 0.22), stop(100, Color.BLUE, 0.22)),
+        linear("wave-a", stop(0, Color.BLUE, 0.22), stop(100, Color.PURPLE, 0.22)),
+        linear("wave-b", stop(0, Color.PURPLE, 0.18), stop(100, Color.PINK, 0.18)),
+        linear("wave-c", stop(0, Color.CYAN, 0.15), stop(100, Color.BLUE, 0.15)),
     ]
 
 
@@ -1233,7 +1269,8 @@ def render_header(identity: Identity) -> str:
     canvas = Canvas(width, height, f"{identity.name} \u2014 {identity.title}")
     rng = random.Random(11)
     canvas.define(
-        linear("hero-bg", stop(0, "#080d1c"), stop(52, "#171144"), stop(100, "#0a2d4d"), x2=1, y2=1),
+        linear("hero-bg", stop(0, "#050816"), stop(52, "#190f45"), stop(100, "#07294a"), x2=1, y2=1),
+        linear("plate-fill", stop(0, "#ffffff", 0.13), stop(100, "#ffffff", 0.04), x2=1, y2=1),
         linear("hero-title", stop(0, "#ffffff"), stop(55, "#a5d6ff"), stop(100, "#d2a8ff")),
         linear("hero-accent", stop(0, Color.BLUE), stop(100, Color.PURPLE)),
         *wave_gradients(),
@@ -1273,6 +1310,13 @@ def render_header(identity: Identity) -> str:
         text(identity.status, pill_x + 42, 77, 16, "#c9d1d9", 500),
         class_="fade",
     )
+    plate = el(
+        "g",
+        el("rect", x=140, y=100, width=720, height=166, rx=34, fill="url(#plate-fill)"),
+        el("rect", x=140, y=100, width=720, height=64, rx=34, fill="url(#g-shine)"),
+        el("rect", x=140.6, y=100.6, width=718.8, height=164.8, rx=33.4, fill="none", stroke="url(#g-edge)", stroke_width=1.2),
+        class_="fade",
+    )
     title_attributes = dict(x=500, y=184, font_size=84, font_weight=800, text_anchor="middle", letter_spacing=1)
     glow = el("text", esc(identity.name), fill=Color.BLUE, opacity=0.5, filter="url(#hero-glow)", class_="fade", **title_attributes)
     title = el("text", esc(identity.name), fill="url(#hero-title)", class_="rise", **title_attributes)
@@ -1298,13 +1342,15 @@ def render_header(identity: Identity) -> str:
             el("circle", cx=850, cy=110, r=250, fill="url(#orb-purple)", class_="orb-b"),
             *stars,
             *waves,
+            plate,
             pill,
             glow,
             title,
             subtitle,
             underline,
             clip_path="url(#hero-clip)",
-        )
+        ),
+        el("rect", x=0.6, y=0.6, width=width - 1.2, height=height - 1.2, rx=27.4, fill="none", stroke="url(#g-edge)", stroke_width=1.2),
     )
     return canvas.render()
 
@@ -1313,7 +1359,7 @@ def render_footer(identity: Identity, today: date) -> str:
     width, height = 1000, 240
     canvas = Canvas(width, height, identity.cta_title)
     canvas.define(
-        linear("foot-bg", stop(0, "#080d1c"), stop(52, "#171144"), stop(100, "#0a2d4d"), x2=1, y2=1),
+        linear("foot-bg", stop(0, "#050816"), stop(52, "#190f45"), stop(100, "#07294a"), x2=1, y2=1),
         linear("foot-title", stop(0, "#ffffff"), stop(55, "#a5d6ff"), stop(100, "#d2a8ff")),
         *wave_gradients(),
         el("clipPath", el("rect", width=width, height=height, rx=28), id="foot-clip"),
@@ -1336,7 +1382,8 @@ def render_footer(identity: Identity, today: date) -> str:
             text(identity.cta_text, 500, 126, 18, "#b6c2e2", 400, "middle", class_="rise", style="animation-delay:.15s"),
             text(f"Auto-updated \u00b7 {today:%b} {today.day}, {today.year}", 500, 222, 13, "#ffffff", 500, "middle", fill_opacity=0.55),
             clip_path="url(#foot-clip)",
-        )
+        ),
+        el("rect", x=0.6, y=0.6, width=width - 1.2, height=height - 1.2, rx=27.4, fill="none", stroke="url(#g-edge)", stroke_width=1.2),
     )
     return canvas.render()
 
@@ -1362,7 +1409,9 @@ def render_typing(identity: Identity) -> str:
     canvas = Canvas(width, height, " \u00b7 ".join(identity.taglines))
     canvas.define(linear("typing-ink", stop(0, "#79c0ff"), stop(100, "#d2a8ff")))
     canvas.add(
-        el("rect", x=0.5, y=0.5, width=width - 1, height=height - 1, rx=16, fill=Color.BG, stroke=Color.BORDER),
+        el("rect", width=width, height=height, rx=18, fill="url(#g-bg)"),
+        el("rect", width=width, height=height, rx=18, fill="url(#g-panel)"),
+        el("rect", x=0.6, y=0.6, width=width - 1.2, height=height - 1.2, rx=17.4, fill="none", stroke="url(#g-edge)", stroke_width=1.2),
         el("text", "$", x=26, y=41, font_size=size, fill=Color.GREEN, font_weight=700, class_="mono"),
     )
     caret_events = [(0.0, origin)]
@@ -1453,10 +1502,11 @@ def render_about(identity: Identity) -> str:
     height = first + (len(lines) - 1) * line_h + 38
     canvas = Canvas(CARD_WIDTH, height, f"About {identity.name}")
     frame(canvas)
-    bar_path = f"M1,{bar} V21 A20,20 0 0 1 21,1 H{CARD_WIDTH - 21} A20,20 0 0 1 {CARD_WIDTH - 1},21 V{bar} Z"
+    radius = CARD_RADIUS
+    bar_path = f"M1,{bar} V{radius} A{radius - 1},{radius - 1} 0 0 1 {radius},1 H{CARD_WIDTH - radius} A{radius - 1},{radius - 1} 0 0 1 {CARD_WIDTH - 1},{radius} V{bar} Z"
     canvas.add(
-        el("path", d=bar_path, fill=Color.PANEL),
-        el("rect", x=1, y=bar, width=CARD_WIDTH - 2, height=1, fill=Color.BORDER),
+        el("path", d=bar_path, fill="#ffffff", fill_opacity=0.07),
+        el("rect", x=1, y=bar, width=CARD_WIDTH - 2, height=1, fill="#ffffff", fill_opacity=0.12),
         el("circle", cx=32, cy=23, r=6.5, fill="#ff5f56"),
         el("circle", cx=54, cy=23, r=6.5, fill="#ffbd2e"),
         el("circle", cx=76, cy=23, r=6.5, fill="#27c93f"),
@@ -1750,10 +1800,10 @@ def render_projects(profile: Profile) -> str:
         if len(lines) > 2:
             lines = [lines[0], shorten(" ".join(lines[1:]), width=per_line, placeholder="\u2026")]
         body = [
-            el("rect", x=x, y=y, width=tile_w, height=tile_h, rx=16, fill=Color.PANEL, fill_opacity=0.9, stroke=Color.BORDER),
+            el("rect", x=x, y=y, width=tile_w, height=tile_h, rx=16, fill="url(#g-tile)", stroke="url(#g-edge)"),
             el("rect", x=x, y=y + 22, width=4, height=34, rx=2, fill=repo.color if repo.language else Color.BLUE),
             text(shorten(repo.name, name_limit, placeholder="\u2026"), x + 24, y + 42, 22, Color.BLUE, 700),
-            el("rect", x=x + tile_w - 78, y=y + 22, width=58, height=24, rx=12, fill="none", stroke=Color.BORDER),
+            el("rect", x=x + tile_w - 78, y=y + 22, width=58, height=24, rx=12, fill="#ffffff", fill_opacity=0.06, stroke="#ffffff", stroke_opacity=0.22),
             text("Public", x + tile_w - 49, y + 39, 12, Color.MUTED, 600, "middle"),
         ]
         if lines:
@@ -1964,7 +2014,7 @@ def render_stats(profile: Profile) -> str:
         canvas.add(
             el(
                 "g",
-                el("rect", x=x, y=y, width=tile_w, height=tile_h, rx=14, fill=Color.PANEL, fill_opacity=0.9, stroke=Color.BORDER),
+                el("rect", x=x, y=y, width=tile_w, height=tile_h, rx=14, fill="url(#g-tile)", stroke="url(#g-edge)"),
                 el("circle", cx=x + tile_w - 32, cy=y + 32, r=20, fill=color, fill_opacity=0.12),
                 icon(glyph, color, x + tile_w - 32, y + 32, 0.85),
                 el("rect", x=x + 18, y=y + 18, width=28, height=4, rx=2, fill=color),
@@ -2141,7 +2191,7 @@ def render_codestats(profile: Profile, now: datetime) -> str:
         canvas.add(
             el(
                 "g",
-                el("rect", x=x, y=y, width=tile_w, height=tile_h, rx=14, fill=Color.PANEL, fill_opacity=0.9, stroke=Color.BORDER),
+                el("rect", x=x, y=y, width=tile_w, height=tile_h, rx=14, fill="url(#g-tile)", stroke="url(#g-edge)"),
                 el("rect", x=x + 18, y=y + 16, width=28, height=4, rx=2, fill=color),
                 text(value, x + 18, y + 58, 32, color, 800),
                 text(label, x + 18, y + 80, 15, Color.MUTED, 500),
@@ -2294,7 +2344,7 @@ def render_wakatime(waka: Waka) -> str:
         canvas.add(
             el(
                 "g",
-                el("rect", x=x, y=top, width=tile_w, height=tile_h, rx=14, fill=Color.PANEL, fill_opacity=0.9, stroke=Color.BORDER),
+                el("rect", x=x, y=top, width=tile_w, height=tile_h, rx=14, fill="url(#g-tile)", stroke="url(#g-edge)"),
                 el("rect", x=x + 18, y=top + 16, width=28, height=4, rx=2, fill=color),
                 text(value, x + 18, top + 58, min(24, (tile_w - 36) / max(len(value) * 0.62, 1)), color, 800),
                 text(label, x + 18, top + 80, 15, Color.MUTED, 500),
@@ -2442,7 +2492,7 @@ def render_certificates(identity: Identity) -> str:
         canvas.add(
             el(
                 "g",
-                el("rect", x=x, y=y, width=column_w, height=card_h, rx=14, fill=Color.PANEL, fill_opacity=0.9, stroke=Color.BORDER),
+                el("rect", x=x, y=y, width=column_w, height=card_h, rx=14, fill="url(#g-tile)", stroke="url(#g-edge)"),
                 el("circle", cx=x + 34, cy=y + card_h / 2, r=20, fill="none", stroke=color, stroke_width=2.5),
                 el("path", d=f"M{x + 25:.1f},{y + card_h / 2:.1f} l6,7 l12,-14", fill="none", stroke=color, stroke_width=2.6, stroke_linecap="round", stroke_linejoin="round"),
                 text(shorten(cert.title, 26, placeholder="\u2026"), x + 66, y + 34, 16, Color.TEXT, 700),

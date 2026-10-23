@@ -1,7 +1,11 @@
 import os
+import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+
+
+LOGIN_PATTERN = re.compile(r"[A-Za-z0-9](?:[A-Za-z0-9-]{0,38})")
 
 
 class Provider:
@@ -30,11 +34,11 @@ class GitHub:
 
     @property
     def login(self) -> str:
-        return (os.environ.get("PROFILE_LOGIN") or "s4yush").strip()
+        return (os.environ.get("PROFILE_LOGIN") or os.environ.get("GITHUB_REPOSITORY_OWNER") or "s4yush").strip()
 
     @property
     def configured(self) -> bool:
-        return bool(self.token)
+        return bool(self.token) and LOGIN_PATTERN.fullmatch(self.login) is not None
 
 
 class Content:
@@ -49,3 +53,18 @@ LASTFM = Provider("LASTFM_API_KEY", "LASTFM_USERNAME")
 WAKATIME = Provider("WAKATIME_API_KEY")
 GITHUB = GitHub()
 CONTENT = Content()
+
+
+def summary() -> str:
+    def state(flag: bool) -> str:
+        return "set" if flag else "missing"
+
+    rows = (
+        ("GitHub token", state(bool(GITHUB.token))),
+        ("GitHub login", GITHUB.login if LOGIN_PATTERN.fullmatch(GITHUB.login) else "invalid"),
+        ("Spotify", state(SPOTIFY.configured)),
+        ("Last.fm", state(LASTFM.configured)),
+        ("WakaTime", state(WAKATIME.configured)),
+        ("content.json", state(CONTENT.path.exists())),
+    )
+    return "\n".join(f"{label:<14}{value}" for label, value in rows)

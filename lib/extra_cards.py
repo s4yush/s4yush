@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import re
+import urllib.parse
 import urllib.request
 from datetime import datetime, timedelta, timezone
 
@@ -14,7 +15,7 @@ DIGIT_GAP = 6
 
 STYLE = "".join(
     (
-        "text{font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,Roboto,'Helvetica Neue',Arial,sans-serif}",
+        "text{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','SF Pro Text','Inter','Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif}",
         ".mono{font-family:'SFMono-Regular',Consolas,'Liberation Mono',Menlo,'DejaVu Sans Mono',monospace}",
         ".bob{animation:bob 2.4s ease-in-out infinite}",
         ".scarf{transform-box:fill-box;transform-origin:0% 50%;animation:wave 1.4s ease-in-out infinite alternate}",
@@ -84,11 +85,11 @@ def digits(count: int) -> str:
         lit = index >= len(text) - real
         parts.append(
             f'<g class="pop" style="animation-delay:{index * 0.06:.2f}s">'
-            f'<rect x="{x:.1f}" y="50" width="{width:.1f}" height="48" rx="9" fill="#161b22" '
-            f'stroke="{"#3b82f6" if lit else "#30363d"}" stroke-opacity="{".7" if lit else "1"}"/>'
-            f'<rect x="{x + 1:.1f}" y="73" width="{width - 2:.1f}" height="2" fill="#0d1117"/>'
+            f'<rect x="{x:.1f}" y="50" width="{width:.1f}" height="48" rx="9" fill="url(#g-tile)" '
+            f'stroke="{"#60a5fa" if lit else "#34406a"}" stroke-opacity="{".7" if lit else "1"}"/>'
+            f'<rect x="{x + 1:.1f}" y="73" width="{width - 2:.1f}" height="2" fill="#000" fill-opacity=".22"/>'
             f'<text class="mono" x="{x + width / 2:.1f}" y="84" font-size="{width * 0.92:.1f}" '
-            f'font-weight="800" text-anchor="middle" fill="{"#e6edf3" if lit else "#3d444d"}">{char}</text>'
+            f'font-weight="800" text-anchor="middle" fill="{"#f5f7ff" if lit else "#4a5578"}">{char}</text>'
             "</g>"
         )
     return "".join(parts)
@@ -99,21 +100,23 @@ def render_views(count: int, login: str) -> str:
     return f"""<svg xmlns="http://www.w3.org/2000/svg" width="420" height="150" viewBox="0 0 420 150" role="img" aria-label="{ba.esc(label)}">
 <title>{ba.esc(label)}</title>
 <defs>
-  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0d1117"/><stop offset="100%" stop-color="#131b2e"/></linearGradient>
+  {ba.glass_markup()}
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#050816"/><stop offset="100%" stop-color="#0b1226"/></linearGradient>
   <linearGradient id="hood" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2d3d7a"/><stop offset="100%" stop-color="#1e2a52"/></linearGradient>
   <radialGradient id="aura" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#8b5cf6" stop-opacity=".45"/><stop offset="100%" stop-color="#8b5cf6" stop-opacity="0"/></radialGradient>
   <pattern id="dots" width="18" height="18" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" fill="#fff" fill-opacity=".05"/></pattern>
 </defs>
 <style>{STYLE}</style>
-<rect width="420" height="150" rx="20" fill="url(#bg)"/>
-<rect width="420" height="150" rx="20" fill="url(#dots)"/>
-<rect x=".5" y=".5" width="419" height="149" rx="19.5" fill="none" stroke="#30363d"/>
+<rect width="420" height="150" rx="28" fill="url(#bg)"/>
+<rect width="420" height="150" rx="28" fill="url(#g-panel)"/>
+<rect width="420" height="52" rx="28" fill="url(#g-shine)"/>
+<rect x=".6" y=".6" width="418.8" height="148.8" rx="27.4" fill="none" stroke="url(#g-edge)" stroke-width="1.2"/>
 <circle class="glow" cx="80" cy="76" r="62" fill="url(#aura)"/>
 {NINJA}
 {shuriken(396, 26, 0.9, "#94a3b8")}
-<text x="160" y="34" font-size="12" font-weight="700" letter-spacing="3" fill="#8b949e">PROFILE VIEWS</text>
+<text x="160" y="34" font-size="12" font-weight="700" letter-spacing="3" fill="#9aa7c7">PROFILE VIEWS</text>
 {digits(count)}
-<text x="160" y="126" font-size="12.5" font-weight="500" fill="#8b949e">Kage the shadow runner  \u00b7  @{ba.esc(login)}</text>
+<text x="160" y="126" font-size="12.5" font-weight="500" fill="#9aa7c7">Kage the shadow runner  \u00b7  @{ba.esc(login)}</text>
 </svg>
 """
 
@@ -132,32 +135,35 @@ def render_clock(now_utc: datetime) -> str:
     for char in chars:
         if char == ":":
             cx = x + colon_w / 2
-            mid = 30 + digit_h / 2
+            mid = 36 + digit_h / 2
             glyphs.append(
-                f'<circle cx="{cx:.1f}" cy="{mid - 12:.1f}" r="3" fill="#8b949e"/>'
-                f'<circle cx="{cx:.1f}" cy="{mid + 12:.1f}" r="3" fill="#8b949e"/>'
+                f'<circle cx="{cx:.1f}" cy="{mid - 12:.1f}" r="3" fill="#9aa7c7"/>'
+                f'<circle cx="{cx:.1f}" cy="{mid + 12:.1f}" r="3" fill="#9aa7c7"/>'
             )
             x += colon_w + gap
             continue
         glyphs.append(
-            f'<g><rect x="{x:.1f}" y="30" width="{digit_w}" height="{digit_h}" rx="9" fill="#161b22" stroke="#3b82f6"/>'
-            f'<text class="mono" x="{x + digit_w / 2:.1f}" y="{30 + digit_h * 0.7:.1f}" font-size="{digit_h * 0.62:.1f}" '
-            f'font-weight="800" text-anchor="middle" fill="#e6edf3">{char}</text></g>'
+            f'<g><rect x="{x:.1f}" y="36" width="{digit_w}" height="{digit_h}" rx="9" fill="url(#g-tile)" stroke="url(#g-edge)"/>'
+            f'<text class="mono" x="{x + digit_w / 2:.1f}" y="{36 + digit_h * 0.7:.1f}" font-size="{digit_h * 0.62:.1f}" '
+            f'font-weight="800" text-anchor="middle" fill="#f5f7ff">{char}</text></g>'
         )
         x += digit_w + gap
     label = f"India time: {hh}:{mm} {period}, {weekday}"
     return f"""<svg xmlns="http://www.w3.org/2000/svg" width="440" height="150" viewBox="0 0 440 150" role="img" aria-label="{ba.esc(label)}">
 <title>{ba.esc(label)}</title>
 <defs>
-  <linearGradient id="clock-bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0d1117"/><stop offset="100%" stop-color="#131b2e"/></linearGradient>
+  {ba.glass_markup()}
+  <linearGradient id="clock-bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#050816"/><stop offset="100%" stop-color="#0b1226"/></linearGradient>
 </defs>
 <style>{STYLE}</style>
-<rect width="440" height="150" rx="20" fill="url(#clock-bg)"/>
-<rect x=".5" y=".5" width="439" height="149" rx="19.5" fill="none" stroke="#30363d"/>
-<text x="220" y="24" font-size="12" font-weight="700" letter-spacing="3" fill="#8b949e" text-anchor="middle">INDIA TIME \u00b7 IST</text>
+<rect width="440" height="150" rx="28" fill="url(#clock-bg)"/>
+<rect width="440" height="150" rx="28" fill="url(#g-panel)"/>
+<rect width="440" height="52" rx="28" fill="url(#g-shine)"/>
+<rect x=".6" y=".6" width="438.8" height="148.8" rx="27.4" fill="none" stroke="url(#g-edge)" stroke-width="1.2"/>
+<text x="220" y="22" font-size="12" font-weight="700" letter-spacing="3" fill="#9aa7c7" text-anchor="middle">INDIA TIME \u00b7 IST</text>
 {"".join(glyphs)}
 <text x="220" y="112" font-size="14" font-weight="700" fill="#58a6ff" text-anchor="middle">{period}</text>
-<text x="220" y="134" font-size="13" font-weight="500" fill="#8b949e" text-anchor="middle">{weekday} \u00b7 live</text>
+<text x="220" y="134" font-size="13" font-weight="500" fill="#9aa7c7" text-anchor="middle">{weekday} \u00b7 live</text>
 </svg>
 """
 
@@ -180,9 +186,9 @@ def parse_count(svg: str) -> int | None:
 
 
 def fetch_count(login: str) -> int:
-    request = urllib.request.Request(COUNTER_URL.format(login=login), headers={"User-Agent": "profile-assets-builder"})
+    request = urllib.request.Request(COUNTER_URL.format(login=urllib.parse.quote(login, safe="")), headers={"User-Agent": "profile-assets-builder"})
     with urllib.request.urlopen(request, timeout=20) as response:
-        body = response.read().decode("utf-8", "replace")
+        body = response.read(1_000_000).decode("utf-8", "replace")
     count = parse_count(body)
     if count is None:
         raise ValueError(f"no number found in the counter response, which starts with: {body[:200]!r}")
