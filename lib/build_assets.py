@@ -44,15 +44,15 @@ class Color:
     BORDER = "#34406a"
     TEXT = "#f5f7ff"
     MUTED = "#9aa7c7"
-    BLUE = "#58a6ff"
-    CYAN = "#39c5cf"
-    PURPLE = "#bc8cff"
-    PINK = "#f778ba"
-    GREEN = "#3fb950"
-    ORANGE = "#ffa657"
-    YELLOW = "#e3b341"
-    RED = "#ff7b72"
-    HEAT = ("#161b22", "#12314f", "#1f6feb", "#8957e5", "#d2a8ff")
+    BLUE = "#0a84ff"
+    CYAN = "#40c8e0"
+    PURPLE = "#bf5af2"
+    PINK = "#ff5c8a"
+    GREEN = "#30d158"
+    ORANGE = "#ff9f0a"
+    YELLOW = "#ffd60a"
+    RED = "#ff453a"
+    HEAT = ("#1a2244", "#0b3d91", "#0a84ff", "#bf5af2", "#e7b8ff")
 
 
 @dataclass(frozen=True)
@@ -1191,11 +1191,11 @@ class Canvas:
 
 def glass_defs() -> list[str]:
     return [
-        linear("g-bg", stop(0, "#050816"), stop(55, "#0a1030"), stop(100, "#07162c"), x2=1, y2=1),
-        linear("g-panel", stop(0, "#ffffff", 0.10), stop(100, "#ffffff", 0.03), x2=1, y2=1),
+        linear("g-bg", stop(0, "#040716"), stop(55, "#0c0b3c"), stop(100, "#051f40"), x2=1, y2=1),
+        linear("g-panel", stop(0, "#ffffff", 0.06), stop(100, "#ffffff", 0.02), x2=1, y2=1),
         linear("g-tile", stop(0, "#ffffff", 0.12), stop(55, "#ffffff", 0.05), stop(100, "#ffffff", 0.08), x2=1, y2=1),
         linear("g-edge", stop(0, "#ffffff", 0.55), stop(35, "#ffffff", 0.10), stop(70, "#a5b4ff", 0.14), stop(100, "#ffffff", 0.38), x2=1, y2=1),
-        linear("g-shine", stop(0, "#ffffff", 0.18), stop(100, "#ffffff", 0), x2=0, y2=1),
+        linear("g-shine", stop(0, "#ffffff", 0.09), stop(100, "#ffffff", 0), x2=0, y2=1),
     ]
 
 
@@ -1223,9 +1223,9 @@ def frame(canvas: Canvas, title: str = "", meta: str = "") -> None:
     shine = min(150.0, height * 0.32)
     canvas.define(
         linear("card-accent", stop(0, Color.BLUE), stop(100, Color.PURPLE), x2=0, y2=1),
-        radial("aurora-a", Color.BLUE, 0.5),
-        radial("aurora-b", Color.PURPLE, 0.45),
-        radial("aurora-c", Color.CYAN, 0.34),
+        radial("aurora-a", Color.BLUE, 0.62),
+        radial("aurora-b", Color.PURPLE, 0.55),
+        radial("aurora-c", Color.CYAN, 0.42),
         el("clipPath", el("rect", width=width, height=height, rx=CARD_RADIUS), id="card-clip"),
     )
     canvas.add(
@@ -1258,9 +1258,9 @@ def wave_layers(width: float, height: float, layers: Sequence[tuple[float, float
 
 def wave_gradients() -> list[str]:
     return [
-        linear("wave-a", stop(0, Color.BLUE, 0.22), stop(100, Color.PURPLE, 0.22)),
-        linear("wave-b", stop(0, Color.PURPLE, 0.18), stop(100, Color.PINK, 0.18)),
-        linear("wave-c", stop(0, Color.CYAN, 0.15), stop(100, Color.BLUE, 0.15)),
+        linear("wave-a", stop(0, Color.BLUE, 0.32), stop(100, Color.PURPLE, 0.32)),
+        linear("wave-b", stop(0, Color.PURPLE, 0.26), stop(100, Color.PINK, 0.26)),
+        linear("wave-c", stop(0, Color.CYAN, 0.2), stop(100, Color.BLUE, 0.2)),
     ]
 
 
@@ -1269,7 +1269,7 @@ def render_header(identity: Identity) -> str:
     canvas = Canvas(width, height, f"{identity.name} \u2014 {identity.title}")
     rng = random.Random(11)
     canvas.define(
-        linear("hero-bg", stop(0, "#050816"), stop(52, "#190f45"), stop(100, "#07294a"), x2=1, y2=1),
+        linear("hero-bg", stop(0, "#040716"), stop(52, "#1d0b5a"), stop(100, "#04305e"), x2=1, y2=1),
         linear("plate-fill", stop(0, "#ffffff", 0.13), stop(100, "#ffffff", 0.04), x2=1, y2=1),
         linear("hero-title", stop(0, "#ffffff"), stop(55, "#a5d6ff"), stop(100, "#d2a8ff")),
         linear("hero-accent", stop(0, Color.BLUE), stop(100, Color.PURPLE)),
@@ -1359,7 +1359,7 @@ def render_footer(identity: Identity, today: date) -> str:
     width, height = 1000, 240
     canvas = Canvas(width, height, identity.cta_title)
     canvas.define(
-        linear("foot-bg", stop(0, "#050816"), stop(52, "#190f45"), stop(100, "#07294a"), x2=1, y2=1),
+        linear("foot-bg", stop(0, "#040716"), stop(52, "#1d0b5a"), stop(100, "#04305e"), x2=1, y2=1),
         linear("foot-title", stop(0, "#ffffff"), stop(55, "#a5d6ff"), stop(100, "#d2a8ff")),
         *wave_gradients(),
         el("clipPath", el("rect", width=width, height=height, rx=28), id="foot-clip"),
