@@ -86,7 +86,7 @@ def digits(count: int) -> str:
         parts.append(
             f'<g class="pop" style="animation-delay:{index * 0.06:.2f}s">'
             f'<rect x="{x:.1f}" y="50" width="{width:.1f}" height="48" rx="9" fill="url(#g-tile)" '
-            f'stroke="{"#0a84ff" if lit else "#34406a"}" stroke-opacity="{".7" if lit else "1"}"/>'
+            f'stroke="{"#4da3ff" if lit else "#34406a"}" stroke-opacity="{".7" if lit else "1"}"/>'
             f'<rect x="{x + 1:.1f}" y="73" width="{width - 2:.1f}" height="2" fill="#000" fill-opacity=".22"/>'
             f'<text class="mono" x="{x + width / 2:.1f}" y="84" font-size="{width * 0.92:.1f}" '
             f'font-weight="800" text-anchor="middle" fill="{"#f5f7ff" if lit else "#4a5578"}">{char}</text>'
@@ -101,7 +101,7 @@ def render_views(count: int, login: str) -> str:
 <title>{ba.esc(label)}</title>
 <defs>
   {ba.glass_markup()}
-  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#040716"/><stop offset="100%" stop-color="#0c0b3c"/></linearGradient>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#07090f"/><stop offset="100%" stop-color="#0d1020"/></linearGradient>
   <linearGradient id="hood" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2d3d7a"/><stop offset="100%" stop-color="#1e2a52"/></linearGradient>
   <radialGradient id="aura" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#8b5cf6" stop-opacity=".45"/><stop offset="100%" stop-color="#8b5cf6" stop-opacity="0"/></radialGradient>
   <pattern id="dots" width="18" height="18" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" fill="#fff" fill-opacity=".05"/></pattern>
@@ -153,7 +153,7 @@ def render_clock(now_utc: datetime) -> str:
 <title>{ba.esc(label)}</title>
 <defs>
   {ba.glass_markup()}
-  <linearGradient id="clock-bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#040716"/><stop offset="100%" stop-color="#0c0b3c"/></linearGradient>
+  <linearGradient id="clock-bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#07090f"/><stop offset="100%" stop-color="#0d1020"/></linearGradient>
 </defs>
 <style>{STYLE}</style>
 <rect width="440" height="150" rx="28" fill="url(#clock-bg)"/>
@@ -162,7 +162,7 @@ def render_clock(now_utc: datetime) -> str:
 <rect x=".6" y=".6" width="438.8" height="148.8" rx="27.4" fill="none" stroke="url(#g-edge)" stroke-width="1.2"/>
 <text x="220" y="22" font-size="12" font-weight="700" letter-spacing="3" fill="#9aa7c7" text-anchor="middle">INDIA TIME \u00b7 IST</text>
 {"".join(glyphs)}
-<text x="220" y="112" font-size="14" font-weight="700" fill="#64d2ff" text-anchor="middle">{period}</text>
+<text x="220" y="112" font-size="14" font-weight="700" fill="#5ccfe6" text-anchor="middle">{period}</text>
 <text x="220" y="134" font-size="13" font-weight="500" fill="#9aa7c7" text-anchor="middle">{weekday} \u00b7 live</text>
 </svg>
 """

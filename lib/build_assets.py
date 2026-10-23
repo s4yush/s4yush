@@ -44,15 +44,15 @@ class Color:
     BORDER = "#34406a"
     TEXT = "#f5f7ff"
     MUTED = "#9aa7c7"
-    BLUE = "#0a84ff"
-    CYAN = "#40c8e0"
-    PURPLE = "#bf5af2"
-    PINK = "#ff5c8a"
-    GREEN = "#30d158"
-    ORANGE = "#ff9f0a"
-    YELLOW = "#ffd60a"
-    RED = "#ff453a"
-    HEAT = ("#1a2244", "#0b3d91", "#0a84ff", "#bf5af2", "#e7b8ff")
+    BLUE = "#4da3ff"
+    CYAN = "#5ccfe6"
+    PURPLE = "#b88af0"
+    PINK = "#ff6b94"
+    GREEN = "#34d27b"
+    ORANGE = "#ffa62b"
+    YELLOW = "#ffd426"
+    RED = "#ff5f57"
+    HEAT = ("#171b2b", "#13407a", "#3b8eea", "#9b6bdb", "#dcc0ff")
 
 
 @dataclass(frozen=True)
@@ -1191,11 +1191,11 @@ class Canvas:
 
 def glass_defs() -> list[str]:
     return [
-        linear("g-bg", stop(0, "#040716"), stop(55, "#0c0b3c"), stop(100, "#051f40"), x2=1, y2=1),
-        linear("g-panel", stop(0, "#ffffff", 0.06), stop(100, "#ffffff", 0.02), x2=1, y2=1),
+        linear("g-bg", stop(0, "#07090f"), stop(55, "#0d1020"), stop(100, "#0a111d"), x2=1, y2=1),
+        linear("g-panel", stop(0, "#ffffff", 0.05), stop(100, "#ffffff", 0.02), x2=1, y2=1),
         linear("g-tile", stop(0, "#ffffff", 0.12), stop(55, "#ffffff", 0.05), stop(100, "#ffffff", 0.08), x2=1, y2=1),
         linear("g-edge", stop(0, "#ffffff", 0.55), stop(35, "#ffffff", 0.10), stop(70, "#a5b4ff", 0.14), stop(100, "#ffffff", 0.38), x2=1, y2=1),
-        linear("g-shine", stop(0, "#ffffff", 0.09), stop(100, "#ffffff", 0), x2=0, y2=1),
+        linear("g-shine", stop(0, "#ffffff", 0.07), stop(100, "#ffffff", 0), x2=0, y2=1),
     ]
 
 
@@ -1205,7 +1205,7 @@ def glass_markup() -> str:
 
 def aurora(width: float, height: float) -> list[str]:
     palette = (("aurora-a", False), ("aurora-b", True), ("aurora-c", False), ("aurora-b", True))
-    radius = min(max(width * 0.42, 200.0), 360.0)
+    radius = min(max(width * 0.34, 160.0), 280.0)
     orbs: list[str] = []
     index = 0
     y = 40.0
@@ -1223,9 +1223,9 @@ def frame(canvas: Canvas, title: str = "", meta: str = "") -> None:
     shine = min(150.0, height * 0.32)
     canvas.define(
         linear("card-accent", stop(0, Color.BLUE), stop(100, Color.PURPLE), x2=0, y2=1),
-        radial("aurora-a", Color.BLUE, 0.62),
-        radial("aurora-b", Color.PURPLE, 0.55),
-        radial("aurora-c", Color.CYAN, 0.42),
+        radial("aurora-a", Color.BLUE, 0.26),
+        radial("aurora-b", Color.PURPLE, 0.22),
+        radial("aurora-c", Color.CYAN, 0.15),
         el("clipPath", el("rect", width=width, height=height, rx=CARD_RADIUS), id="card-clip"),
     )
     canvas.add(
@@ -1258,9 +1258,9 @@ def wave_layers(width: float, height: float, layers: Sequence[tuple[float, float
 
 def wave_gradients() -> list[str]:
     return [
-        linear("wave-a", stop(0, Color.BLUE, 0.32), stop(100, Color.PURPLE, 0.32)),
-        linear("wave-b", stop(0, Color.PURPLE, 0.26), stop(100, Color.PINK, 0.26)),
-        linear("wave-c", stop(0, Color.CYAN, 0.2), stop(100, Color.BLUE, 0.2)),
+        linear("wave-a", stop(0, Color.BLUE, 0.16), stop(100, Color.PURPLE, 0.16)),
+        linear("wave-b", stop(0, Color.PURPLE, 0.13), stop(100, Color.PINK, 0.13)),
+        linear("wave-c", stop(0, Color.CYAN, 0.1), stop(100, Color.BLUE, 0.1)),
     ]
 
 
@@ -1269,13 +1269,13 @@ def render_header(identity: Identity) -> str:
     canvas = Canvas(width, height, f"{identity.name} \u2014 {identity.title}")
     rng = random.Random(11)
     canvas.define(
-        linear("hero-bg", stop(0, "#040716"), stop(52, "#1d0b5a"), stop(100, "#04305e"), x2=1, y2=1),
+        linear("hero-bg", stop(0, "#07080f"), stop(52, "#13102f"), stop(100, "#0a1c33"), x2=1, y2=1),
         linear("plate-fill", stop(0, "#ffffff", 0.13), stop(100, "#ffffff", 0.04), x2=1, y2=1),
         linear("hero-title", stop(0, "#ffffff"), stop(55, "#a5d6ff"), stop(100, "#d2a8ff")),
         linear("hero-accent", stop(0, Color.BLUE), stop(100, Color.PURPLE)),
         *wave_gradients(),
-        radial("orb-blue", Color.BLUE, 0.5),
-        radial("orb-purple", Color.PURPLE, 0.5),
+        radial("orb-blue", Color.BLUE, 0.28),
+        radial("orb-purple", Color.PURPLE, 0.26),
         el("clipPath", el("rect", width=width, height=height, rx=28), id="hero-clip"),
         el("filter", el("feGaussianBlur", stdDeviation=9), id="hero-glow", x="-20%", y="-60%", width="140%", height="220%"),
     )
@@ -1359,7 +1359,7 @@ def render_footer(identity: Identity, today: date) -> str:
     width, height = 1000, 240
     canvas = Canvas(width, height, identity.cta_title)
     canvas.define(
-        linear("foot-bg", stop(0, "#040716"), stop(52, "#1d0b5a"), stop(100, "#04305e"), x2=1, y2=1),
+        linear("foot-bg", stop(0, "#07080f"), stop(52, "#13102f"), stop(100, "#0a1c33"), x2=1, y2=1),
         linear("foot-title", stop(0, "#ffffff"), stop(55, "#a5d6ff"), stop(100, "#d2a8ff")),
         *wave_gradients(),
         el("clipPath", el("rect", width=width, height=height, rx=28), id="foot-clip"),
