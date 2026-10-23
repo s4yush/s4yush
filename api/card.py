@@ -1,3 +1,4 @@
+import re
 import sys
 import traceback
 from http.server import BaseHTTPRequestHandler
@@ -9,13 +10,15 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "lib"))
 from cards import REGISTRY
 from responder import CACHE_ERROR, fallback_svg, respond
 
+NAME_PATTERN = re.compile(r"[a-z]{1,24}")
+
 
 class handler(BaseHTTPRequestHandler):
-    def do_GET(self) -> None:
-        name = parse_qs(urlparse(self.path).query).get("name", [""])[0].removesuffix(".svg")
-        card = REGISTRY.get(name)
+    def serve(self, head: bool) -> None:
+        raw = parse_qs(urlparse(self.path).query).get("name", [""])[0].removesuffix(".svg")
+        card = REGISTRY.get(raw) if NAME_PATTERN.fullmatch(raw) else None
         if card is None:
-            respond(self, 404, fallback_svg("Unknown card"), CACHE_ERROR)
+            respond(self, 404, fallback_svg("Unknown card"), CACHE_ERROR, head)
             return
         try:
             svg = card.render()
@@ -23,9 +26,15 @@ class handler(BaseHTTPRequestHandler):
             traceback.print_exc(file=sys.stderr)
             svg = None
         if svg is None:
-            respond(self, 502, fallback_svg(card.title), CACHE_ERROR)
+            respond(self, 502, fallback_svg(card.title), CACHE_ERROR, head)
             return
-        respond(self, 200, svg, card.cache)
+        respond(self, 200, svg, card.cache, head)
+
+    def do_GET(self) -> None:
+        self.serve(False)
+
+    def do_HEAD(self) -> None:
+        self.serve(True)
 
     def log_message(self, *args: object) -> None:
         return
