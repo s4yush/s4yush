@@ -1145,6 +1145,10 @@ BASE_STYLE = "".join(
         "@keyframes float-a{from{transform:translate(0,0)}to{transform:translate(70px,22px)}}",
         "@keyframes float-b{from{transform:translate(0,0)}to{transform:translate(-60px,-18px)}}",
         "@keyframes drift{from{transform:translateX(0)}to{transform:translateX(-1000px)}}",
+        ".glint{animation:glint 11s ease-in-out infinite}",
+        ".dock{animation:dock 5s ease-in-out infinite}",
+        "@keyframes glint{0%{transform:translateX(-260px)}24%,100%{transform:translateX(1300px)}}",
+        "@keyframes dock{0%,70%,100%{transform:translateY(0)}78%{transform:translateY(-12px)}86%{transform:translateY(0)}92%{transform:translateY(-5px)}}",
         ".seg{animation:seg 1.2s cubic-bezier(.2,.7,.2,1) both}",
         ".bar{transform-box:fill-box;transform-origin:bottom;animation:bar .8s cubic-bezier(.2,.7,.2,1) both}",
         ".eq{transform-box:fill-box;transform-origin:bottom;animation:eq .9s ease-in-out infinite alternate}",
@@ -1196,6 +1200,18 @@ def glass_defs() -> list[str]:
         linear("g-tile", stop(0, "#ffffff", 0.12), stop(55, "#ffffff", 0.05), stop(100, "#ffffff", 0.08), x2=1, y2=1),
         linear("g-edge", stop(0, "#ffffff", 0.55), stop(35, "#ffffff", 0.10), stop(70, "#a5b4ff", 0.14), stop(100, "#ffffff", 0.38), x2=1, y2=1),
         linear("g-shine", stop(0, "#ffffff", 0.07), stop(100, "#ffffff", 0), x2=0, y2=1),
+        linear("g-base", stop(0, "#000000", 0), stop(100, "#000000", 0.24), x2=0, y2=1),
+        linear("g-glint", stop(0, "#ffffff", 0), stop(50, "#ffffff", 0.07), stop(100, "#ffffff", 0)),
+        el(
+            "filter",
+            el("feTurbulence", type="fractalNoise", baseFrequency=0.85, numOctaves=2, stitchTiles="stitch"),
+            el("feColorMatrix", type="saturate", values=0),
+            id="g-grain",
+            x=0,
+            y=0,
+            width="100%",
+            height="100%",
+        ),
     ]
 
 
@@ -1235,6 +1251,9 @@ def frame(canvas: Canvas, title: str = "", meta: str = "") -> None:
             *aurora(width, height),
             el("rect", width=width, height=height, fill="url(#g-panel)"),
             el("rect", x=0, y=0, width=width, height=shine, fill="url(#g-shine)"),
+            el("rect", x=0, y=height - 90, width=width, height=90, fill="url(#g-base)"),
+            el("g", el("rect", x=0, y=-20, width=150, height=height + 40, fill="url(#g-glint)", class_="glint"), transform="skewX(-18)"),
+            el("rect", width=width, height=height, fill="#ffffff", filter="url(#g-grain)", opacity=0.045),
             clip_path="url(#card-clip)",
         ),
         el("rect", x=1.5, y=1.5, width=width - 3, height=height - 3, rx=CARD_RADIUS - 1.5, fill="none", stroke="#ffffff", stroke_opacity=0.05),
@@ -2505,6 +2524,35 @@ def render_certificates(identity: Identity) -> str:
     return canvas.render()
 
 
+DOCK = (
+    ("github", "GitHub", "merged", Color.BLUE, Color.PURPLE),
+    ("portfolio", "Portfolio", "explorer", Color.PINK, Color.ORANGE),
+    ("repos", "Repositories", "repos", Color.GREEN, Color.CYAN),
+    ("stars", "Stars", "stars", Color.YELLOW, Color.ORANGE),
+)
+
+
+def render_dock(key: str) -> str:
+    index, (_, label, glyph, start, end) = next((position, item) for position, item in enumerate(DOCK) if item[0] == key)
+    canvas = Canvas(132, 156, label)
+    canvas.define(linear(f"dock-fill-{key}", stop(0, start), stop(100, end), x2=1, y2=1))
+    canvas.add(
+        el("ellipse", cx=66, cy=124, rx=38, ry=6, fill="#000000", opacity=0.35),
+        el(
+            "g",
+            el("rect", x=16, y=14, width=100, height=100, rx=26, fill=f"url(#dock-fill-{key})"),
+            el("rect", x=16, y=14, width=100, height=100, rx=26, fill="url(#g-tile)"),
+            el("rect", x=16, y=14, width=100, height=48, rx=26, fill="url(#g-shine)"),
+            el("rect", x=16.6, y=14.6, width=98.8, height=98.8, rx=25.4, fill="none", stroke="url(#g-edge)", stroke_width=1.4),
+            icon(glyph, "#ffffff", 66, 64, 2.5),
+            class_="dock",
+            style=f"animation-delay:{index * 0.9:.1f}s",
+        ),
+        text(label, 66, 146, 14, Color.TEXT, 600, "middle"),
+    )
+    return canvas.render()
+
+
 def render_divider() -> str:
     canvas = Canvas(CARD_WIDTH, 14, "Section divider")
     canvas.define(
@@ -2556,6 +2604,7 @@ def build_assets(
         "certificates.svg": lambda: render_certificates(identity),
         "projects.svg": lambda: render_projects(profile),
         "divider.svg": render_divider,
+        **{f"dock{item[0]}.svg": (lambda key=item[0]: render_dock(key)) for item in DOCK},
         "footer.svg": lambda: render_footer(identity, profile.today),
     }
     return {name: guarded(name, factory, failures) for name, factory in factories.items()}, failures

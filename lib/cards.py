@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+import sys
 import threading
 import time
+import traceback
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from typing import Callable, TypeVar
@@ -14,12 +16,14 @@ T = TypeVar("T")
 
 STATIC = "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400"
 GITHUB = "public, max-age=0, s-maxage=600, stale-while-revalidate=86400"
+STALE = "public, max-age=0, s-maxage=30, stale-while-revalidate=60"
 LIVE = "public, max-age=0, s-maxage=60, stale-while-revalidate=600"
 CLOCK = "public, max-age=0, s-maxage=20, stale-while-revalidate=20"
 VIEWS = "public, max-age=0, s-maxage=30, stale-while-revalidate=30"
 
 STORE: dict[str, tuple[float, object]] = {}
 LOCK = threading.Lock()
+LAST: dict[str, str] = {}
 
 
 def remembered(key: str, ttl: float, load: Callable[[], T | None]) -> T | None:
@@ -113,3 +117,22 @@ REGISTRY: dict[str, Card] = {
     "clock": Card("Clock", CLOCK, lambda: extra.render_clock(utc_now())),
     "views": Card("Views", VIEWS, render_views),
 }
+
+
+for _key, _label, *_rest in ba.DOCK:
+    REGISTRY[f"dock{_key}"] = Card(_label, STATIC, lambda key=_key: ba.render_dock(key))
+
+
+def render_card(name: str, card: Card) -> tuple[str | None, str]:
+    try:
+        svg = card.render()
+    except Exception:
+        traceback.print_exc(file=sys.stderr)
+        svg = None
+    if svg is not None:
+        with LOCK:
+            LAST[name] = svg
+        return svg, card.cache
+    with LOCK:
+        previous = LAST.get(name)
+    return previous, STALE
