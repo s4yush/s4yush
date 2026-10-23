@@ -1,13 +1,12 @@
 import re
 import sys
-import traceback
 from http.server import BaseHTTPRequestHandler
 from pathlib import Path
 from urllib.parse import parse_qs, urlparse
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "lib"))
 
-from cards import REGISTRY
+from cards import REGISTRY, render_card
 from responder import CACHE_ERROR, fallback_svg, respond
 
 NAME_PATTERN = re.compile(r"[a-z]{1,24}")
@@ -20,15 +19,11 @@ class handler(BaseHTTPRequestHandler):
         if card is None:
             respond(self, 404, fallback_svg("Unknown card"), CACHE_ERROR, head)
             return
-        try:
-            svg = card.render()
-        except Exception:
-            traceback.print_exc(file=sys.stderr)
-            svg = None
+        svg, cache = render_card(raw, card)
         if svg is None:
             respond(self, 502, fallback_svg(card.title), CACHE_ERROR, head)
             return
-        respond(self, 200, svg, card.cache, head)
+        respond(self, 200, svg, cache, head)
 
     def do_GET(self) -> None:
         self.serve(False)
