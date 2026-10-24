@@ -94,8 +94,12 @@ def total_views(store: Path, repo: str, token: str) -> int | None:
         data = None
     for day in (data or {}).get("views", []):
         seen[day["timestamp"][:10]] = day["count"]
-    if not seen:
-        return None
+    if data is None and not seen:
+        try:
+            return extra.fetch_count(repo.split("/")[0])
+        except Exception as error:
+            print(f"Counter fallback failed: {error}", file=sys.stderr)
+            return None
     store.write_text(json.dumps(seen, sort_keys=True))
     return sum(seen.values()) + int(os.environ.get("VIEWS_BASE", 0))
 
