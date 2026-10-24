@@ -5,13 +5,15 @@
 <p><img src="https://s4yush.vercel.app/typing.svg" width="100%" alt="B.Tech CSE Student · Python · C · Git & GitHub · Learning & Building in Public" /></p>
 
 <p>
-  <img src="https://s4yush.vercel.app/views.svg" width="360" alt="Profile views" />
+  <img src="https://raw.githubusercontent.com/s4yush/s4yush/output/views.svg" width="360" alt="Profile views" />
   <img src="https://s4yush.vercel.app/clock.svg" width="377" alt="India time" />
 </p>
 
 <p>
-  <a href="https://github.com/s4yush"><img src="https://img.shields.io/badge/GitHub-s4yush-161b22?style=for-the-badge&logo=github&logoColor=white" alt="GitHub" /></a>
-  <a href="https://github.com/s4yush/portfolio"><img src="https://img.shields.io/badge/Portfolio-my--portfolio-1f6feb?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Portfolio" /></a>
+  <a href="https://github.com/s4yush"><img src="https://s4yush.vercel.app/dockgithub.svg" width="110" alt="GitHub" /></a>
+  <a href="https://github.com/s4yush/portfolio"><img src="https://s4yush.vercel.app/dockportfolio.svg" width="110" alt="Portfolio" /></a>
+  <a href="https://github.com/s4yush?tab=repositories"><img src="https://s4yush.vercel.app/dockrepos.svg" width="110" alt="Repositories" /></a>
+  <a href="https://github.com/s4yush?tab=stars"><img src="https://s4yush.vercel.app/dockstars.svg" width="110" alt="Stars" /></a>
 </p>
 
 <p><img src="https://s4yush.vercel.app/about.svg" width="100%" alt="About Suyash: product-minded developer, B.Tech CSE, working with Python, C, Git and GitHub" /></p>
@@ -46,13 +48,7 @@
 
 <p><img src="https://s4yush.vercel.app/activity.svg" width="100%" alt="Contribution heatmap and weekly activity trend" /></p>
 
-<p>
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/s4yush/s4yush/output/snake-dark.svg" />
-    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/s4yush/s4yush/output/snake-light.svg" />
-    <img src="https://raw.githubusercontent.com/s4yush/s4yush/output/snake-dark.svg" width="100%" alt="Contribution graph snake animation" />
-  </picture>
-</p>
+<p><img src="https://raw.githubusercontent.com/s4yush/s4yush/output/space.svg" width="100%" alt="Rocket destroying contributions in space" /></p>
 
 <p><img src="https://s4yush.vercel.app/divider.svg" width="100%" alt="" /></p>
 
