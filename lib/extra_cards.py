@@ -106,7 +106,7 @@ def render_views(count: int, login: str) -> str:
   <radialGradient id="aura" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#8b5cf6" stop-opacity=".45"/><stop offset="100%" stop-color="#8b5cf6" stop-opacity="0"/></radialGradient>
   <pattern id="dots" width="18" height="18" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" fill="#fff" fill-opacity=".05"/></pattern>
 </defs>
-<style>{STYLE}</style>
+<style>{ba.settle(STYLE)}</style>
 <rect width="420" height="150" rx="28" fill="url(#bg)"/>
 <rect width="420" height="150" rx="28" fill="url(#g-panel)"/>
 <rect width="420" height="52" rx="28" fill="url(#g-shine)"/>
@@ -155,7 +155,7 @@ def render_clock(now_utc: datetime) -> str:
   {ba.glass_markup()}
   <linearGradient id="clock-bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#07090f"/><stop offset="100%" stop-color="#0d1020"/></linearGradient>
 </defs>
-<style>{STYLE}</style>
+<style>{ba.settle(STYLE)}</style>
 <rect width="440" height="150" rx="28" fill="url(#clock-bg)"/>
 <rect width="440" height="150" rx="28" fill="url(#g-panel)"/>
 <rect width="440" height="52" rx="28" fill="url(#g-shine)"/>

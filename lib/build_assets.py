@@ -5,6 +5,7 @@ import json
 import math
 import os
 import random
+import re
 import sys
 import time
 import traceback
@@ -1014,6 +1015,10 @@ def span_label(streak: Streak, today: date) -> str:
     return f"{short_date(streak.start, today)} \u2013 {short_date(streak.end, today)}"
 
 
+def settle(css: str, seconds: float = 60) -> str:
+    return re.sub(r"(?<![\w.])(\d*\.?\d+)s([^;}]*?) infinite", lambda m: f"{m[1]}s{m[2]} {max(1, math.ceil(seconds / float(m[1])))}", css)
+
+
 def num(value: float) -> str:
     rendered = f"{value:.2f}".rstrip("0").rstrip(".")
     return "0" if rendered in {"", "-0"} else rendered
@@ -1145,9 +1150,7 @@ BASE_STYLE = "".join(
         "@keyframes float-a{from{transform:translate(0,0)}to{transform:translate(70px,22px)}}",
         "@keyframes float-b{from{transform:translate(0,0)}to{transform:translate(-60px,-18px)}}",
         "@keyframes drift{from{transform:translateX(0)}to{transform:translateX(-1000px)}}",
-        ".glint{animation:glint 11s ease-in-out infinite}",
         ".dock{animation:dock 5s ease-in-out infinite}",
-        "@keyframes glint{0%{transform:translateX(-260px)}24%,100%{transform:translateX(1300px)}}",
         "@keyframes dock{0%,70%,100%{transform:translateY(0)}78%{transform:translateY(-12px)}86%{transform:translateY(0)}92%{transform:translateY(-5px)}}",
         ".seg{animation:seg 1.2s cubic-bezier(.2,.7,.2,1) both}",
         ".bar{transform-box:fill-box;transform-origin:bottom;animation:bar .8s cubic-bezier(.2,.7,.2,1) both}",
@@ -1186,7 +1189,7 @@ class Canvas:
                 head,
                 el("title", esc(self.label)),
                 el("defs", *glass_defs(), *self.definitions),
-                el("style", BASE_STYLE, *self.rules),
+                el("style", settle(BASE_STYLE), *map(settle, self.rules)),
                 *self.nodes,
                 "</svg>\n",
             )
@@ -1201,17 +1204,6 @@ def glass_defs() -> list[str]:
         linear("g-edge", stop(0, "#ffffff", 0.55), stop(35, "#ffffff", 0.10), stop(70, "#a5b4ff", 0.14), stop(100, "#ffffff", 0.38), x2=1, y2=1),
         linear("g-shine", stop(0, "#ffffff", 0.07), stop(100, "#ffffff", 0), x2=0, y2=1),
         linear("g-base", stop(0, "#000000", 0), stop(100, "#000000", 0.24), x2=0, y2=1),
-        linear("g-glint", stop(0, "#ffffff", 0), stop(50, "#ffffff", 0.07), stop(100, "#ffffff", 0)),
-        el(
-            "filter",
-            el("feTurbulence", type="fractalNoise", baseFrequency=0.85, numOctaves=2, stitchTiles="stitch"),
-            el("feColorMatrix", type="saturate", values=0),
-            id="g-grain",
-            x=0,
-            y=0,
-            width="100%",
-            height="100%",
-        ),
     ]
 
 
@@ -1252,8 +1244,6 @@ def frame(canvas: Canvas, title: str = "", meta: str = "") -> None:
             el("rect", width=width, height=height, fill="url(#g-panel)"),
             el("rect", x=0, y=0, width=width, height=shine, fill="url(#g-shine)"),
             el("rect", x=0, y=height - 90, width=width, height=90, fill="url(#g-base)"),
-            el("g", el("rect", x=0, y=-20, width=150, height=height + 40, fill="url(#g-glint)", class_="glint"), transform="skewX(-18)"),
-            el("rect", width=width, height=height, fill="#ffffff", filter="url(#g-grain)", opacity=0.045),
             clip_path="url(#card-clip)",
         ),
         el("rect", x=1.5, y=1.5, width=width - 3, height=height - 3, rx=CARD_RADIUS - 1.5, fill="none", stroke="#ffffff", stroke_opacity=0.05),
@@ -1261,7 +1251,7 @@ def frame(canvas: Canvas, title: str = "", meta: str = "") -> None:
     )
     if title:
         canvas.add(
-            el("rect", x=CARD_PAD, y=28, width=5, height=24, rx=2.5, fill="url(#card-accent)"),
+            el("rect", x=CARD_PAD, y=28, width=5, height=24, rx=2.5, fill="url(#card-accent)", class_="pulse"),
             text(title, CARD_PAD + 16, 47, 22, Color.TEXT, 700, letter_spacing=0.2),
         )
     if meta:
