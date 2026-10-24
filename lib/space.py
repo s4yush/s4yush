@@ -4,6 +4,7 @@ import json
 import os
 import random
 import sys
+import urllib.error
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
@@ -84,11 +85,17 @@ def render_space(days: tuple[ba.Day, ...], today: date, login: str) -> str:
     return canvas.render()
 
 
-def total_views(store: Path, repo: str, token: str) -> int:
+def total_views(store: Path, repo: str, token: str) -> int | None:
     seen = json.loads(store.read_text()) if store.exists() else {}
-    data = ba.http_json(f"https://api.github.com/repos/{repo}/traffic/views", {"Authorization": f"Bearer {token}", "Accept": "application/vnd.github+json", "User-Agent": "profile-assets-builder"})
+    try:
+        data = ba.http_json(f"https://api.github.com/repos/{repo}/traffic/views", {"Authorization": f"Bearer {token}", "Accept": "application/vnd.github+json", "User-Agent": "profile-assets-builder"})
+    except urllib.error.HTTPError as error:
+        print(f"Traffic API HTTP {error.code}: PROFILE_TOKEN (classic PAT, repo scope) is required", file=sys.stderr)
+        data = None
     for day in (data or {}).get("views", []):
         seen[day["timestamp"][:10]] = day["count"]
+    if not seen:
+        return None
     store.write_text(json.dumps(seen, sort_keys=True))
     return sum(seen.values()) + int(os.environ.get("VIEWS_BASE", 0))
 
@@ -103,9 +110,12 @@ def main() -> int:
     today = datetime.now(timezone.utc).date()
     (out / "space.svg").write_text(render_space(fetch_days(token, login), today, login), encoding="utf-8")
     repo = os.environ.get("GITHUB_REPOSITORY", f"{login}/{login}")
-    (out / "views.svg").write_text(extra.render_views(total_views(out / "views.json", repo, token), login), encoding="utf-8")
+    views = total_views(out / "views.json", repo, token)
+    if views is not None:
+        (out / "views.svg").write_text(extra.render_views(views, login), encoding="utf-8")
     return 0
 
 
 if __name__ == "__main__":
     raise SystemExit(main())
+    
