@@ -63,6 +63,3 @@
 <p><a href="https://github.com/s4yush"><img src="https://s4yush.vercel.app/footer.svg" width="100%" alt="Let's talk about the next build" /></a></p>
 
 </div>
-
-## 👨‍💻 LOC
-[![Lines of Code](https://api.githubtrends.io/user/svg/s4yush/langs?time_range=one_year&include_private=True&loc_metric=changed&theme=dark)](https://xditya.me)
